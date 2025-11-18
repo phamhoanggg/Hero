@@ -1,0 +1,152 @@
+{ "skeleton": { "images": "H:/My Drive/Choco/Project01/Levels/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "A", "bone": "root", "attachment": "Lv11/A/A" },
+	{ "name": "C", "bone": "root", "attachment": "Lv11/C/C" },
+	{ "name": "Ladder", "bone": "root", "attachment": "Lv11/C/Ladder" },
+	{ "name": "B", "bone": "root", "attachment": "Lv11/B" },
+	{ "name": "Pit_1", "bone": "root", "attachment": "Lv11/B/Op2/Pit_1" },
+	{ "name": "1", "bone": "root", "attachment": "Lv11/Demo/1" },
+	{ "name": "2", "bone": "root", "attachment": "Lv11/Demo/2" },
+	{ "name": "Idle", "bone": "root", "attachment": "Lv12/B/Op3/Idle" },
+	{ "name": "Move", "bone": "root", "attachment": "Lv12/B/Op3/Move" },
+	{ "name": "3", "bone": "root", "attachment": "Lv12/Demo/3" },
+	{ "name": "Sword", "bone": "root", "attachment": "Lv13/B/Op2/Sword" },
+	{ "name": "Arrow", "bone": "root", "attachment": "Lv13/B/Op3/Arrow" },
+	{ "name": "Bow", "bone": "root", "attachment": "Lv14/A/Bow" },
+	{ "name": "DoorClose", "bone": "root", "attachment": "Lv14/DoorClose" },
+	{ "name": "C1", "bone": "root", "attachment": "Lv14/C/C1" },
+	{ "name": "Arrow copy", "bone": "root", "attachment": "Lv14/C/Arrow copy" },
+	{ "name": "Arrow copy 2", "bone": "root", "attachment": "Lv14/C/Arrow copy 2" },
+	{ "name": "B2", "bone": "root", "attachment": "Lv14/B2/B2" },
+	{ "name": "OpenChest", "bone": "root", "attachment": "Lv14/B2/Op2/OpenChest" },
+	{ "name": "Shield", "bone": "root", "attachment": "Lv14/B2/Op2/Shield" },
+	{ "name": "4", "bone": "root", "attachment": "Lv14/Demo/4" },
+	{ "name": "Rock", "bone": "root", "attachment": "Lv15/C/Rock" }
+],
+"skins": {
+	"default": {
+		"A": {
+			"Lv15/A/A": { "x": 55.5, "y": -777, "width": 113, "height": 1006 },
+			"Lv14/A/A": { "x": 55.5, "y": -759, "width": 111, "height": 1042 },
+			"Lv13/A/A": { "x": 108, "y": -759.5, "width": 216, "height": 1041 },
+			"Lv12/A/A": { "x": 108, "y": -829.5, "width": 216, "height": 901 },
+			"Lv11/A/A": { "x": 108.5, "y": -829.5, "width": 219, "height": 901 }
+		},
+		"C": {
+			"Lv15/C/C": { "x": 664.5, "y": -777.5, "width": 111, "height": 1005 },
+			"Lv14/C/C": { "x": 664.5, "y": -829.5, "width": 111, "height": 901 },
+			"Lv13/C/C": { "x": 592, "y": -759.5, "width": 256, "height": 1041 },
+			"Lv12/C/C": { "x": 592.5, "y": -776.5, "width": 255, "height": 1007 },
+			"Lv11/C/C": { "x": 593, "y": -777, "width": 254, "height": 1006 }
+		},
+		"Ladder": {
+			"Lv15/B1/Op3/Ladder": { "x": 235.5, "y": -368.5, "width": 57, "height": 157 },
+			"Lv15/B1/Op2/Ladder": { "x": 233.5, "y": -368.5, "width": 57, "height": 157 },
+			"Lv15/C/Ladder": { "x": 664.5, "y": -337.5, "width": 57, "height": 157 },
+			"Lv14/B1/Ladder": { "x": 305.5, "y": -337.5, "width": 57, "height": 157 },
+			"Lv13/C/Ladder": { "x": 664.5, "y": -301.5, "width": 57, "height": 157 },
+			"Lv12/B/Op2/Ladder": { "x": 340.5, "y": -336.5, "width": 57, "height": 157 },
+			"Lv12/C/Ladder": { "x": 627.5, "y": -337.5, "width": 57, "height": 157 },
+			"Lv11/Ladder": { "x": 305.5, "y": -337.5, "width": 57, "height": 157 },
+			"Lv11/C/Ladder": { "x": 609.5, "y": -337.5, "width": 57, "height": 157 }
+		},
+		"B": {
+			"Lv15/B2/Op2/B": { "x": 484, "y": -794.5, "width": 250, "height": 971 },
+			"Lv15/B2/Op1/B": { "x": 484, "y": -794.5, "width": 250, "height": 971 },
+			"Lv15/B1/Op3/B": { "x": 237, "y": -794, "width": 250, "height": 972 },
+			"Lv15/B1/Op2/B": { "x": 235, "y": -794.5, "width": 250, "height": 971 },
+			"Lv15/B1/Op1/B": { "x": 235, "y": -794.5, "width": 250, "height": 971 },
+			"Lv14/B2/Op2/B": { "x": 484.5, "y": -847, "width": 249, "height": 866 },
+			"Lv14/B2/Op1/B": { "x": 484, "y": -847, "width": 250, "height": 866 },
+			"Lv14/B1/B": { "x": 234.5, "y": -777, "width": 251, "height": 1006 },
+			"Lv13/B/Op1/B": { "x": 393, "y": -830, "width": 144, "height": 900 },
+			"Lv12/B/Op3/B": { "x": 341, "y": -847.5, "width": 250, "height": 865 },
+			"Lv12/B/Op2/B": { "x": 341, "y": -847.5, "width": 250, "height": 865 },
+			"Lv12/B/Op1/B": { "x": 341, "y": -847.5, "width": 252, "height": 865 },
+			"Lv12/B": { "x": 394, "y": -291.5, "width": 144, "height": 37 },
+			"Lv11/B/Op2/B": { "x": 342.5, "y": -847.5, "width": 251, "height": 865 },
+			"Lv11/B/Op1/B": { "x": 342.5, "y": -847.5, "width": 251, "height": 865 },
+			"Lv11/B": { "x": 366, "y": -292, "width": 200, "height": 36 }
+		},
+		"Pit_1": {
+			"Lv14/B2/Op1/Pit_1": { "x": 503, "y": -501.5, "width": 142, "height": 35 },
+			"Lv12/B/Op3/Pit_1": { "x": 346.5, "y": -501.5, "width": 211, "height": 35 },
+			"Lv11/B/Op2/Pit_1": { "x": 395.5, "y": -501.5, "width": 71, "height": 35 }
+		},
+		"1": {
+			"Lv15/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv14/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv13/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv12/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv11/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"2": {
+			"Lv15/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv14/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv13/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv12/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv11/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"Idle": {
+			"Lv13/B/Op1/Idle": { "x": 252, "y": -232.5, "width": 74, "height": 41 },
+			"Lv12/B/Op3/Idle": { "x": 287, "y": -408.5, "width": 74, "height": 41 }
+		},
+		"Move": {
+			"Lv13/B/Op1/Move": { "x": 287, "y": -378, "width": 74, "height": 32 },
+			"Lv12/B/Op3/Move": { "x": 287, "y": -271, "width": 74, "height": 32 }
+		},
+		"3": {
+			"Lv15/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv14/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv13/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv12/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"Sword": {
+			"Lv15/B1/Op2/Sword": { "x": 235, "y": -265, "width": 22, "height": 68 },
+			"Lv13/B/Op2/Sword": { "x": 341, "y": -343, "width": 22, "height": 68 }
+		},
+		"Arrow": {
+			"Lv15/B1/Op3/Arrow": { "x": 245.5, "y": -259.5, "width": 53, "height": 69 },
+			"Lv14/C/Arrow": { "x": 627.5, "y": -221, "width": 21, "height": 62 },
+			"Lv13/B/Op3/Arrow": { "x": 386.5, "y": -343.5, "width": 53, "height": 69 }
+		},
+		"Bow": {
+			"Lv14/A/Bow": { "x": 165, "y": -238, "width": 56, "height": 64 }
+		},
+		"DoorClose": {
+			"Lv15/C/DoorClose": { "x": 692.5, "y": -241, "width": 53, "height": 68 },
+			"Lv14/DoorClose": { "x": 688.5, "y": -345, "width": 53, "height": 68 }
+		},
+		"C1": {
+			"Lv14/C/C1": { "x": 664.5, "y": -186.5, "width": 111, "height": 35 }
+		},
+		"Arrow copy": {
+			"Lv14/C/Arrow copy": { "x": 647.5, "y": -221, "width": 21, "height": 62 }
+		},
+		"Arrow copy 2": {
+			"Lv14/C/Arrow copy 2": { "x": 664.5, "y": -221, "width": 21, "height": 62 }
+		},
+		"B2": {
+			"Lv14/B2/B2": { "x": 591.5, "y": -186.5, "width": 35, "height": 35 }
+		},
+		"OpenChest": {
+			"Lv14/B2/Op2/OpenChest": { "x": 489.5, "y": -389.5, "width": 61, "height": 49 }
+		},
+		"Shield": {
+			"Lv14/B2/Op2/Shield": { "x": 486.5, "y": -352, "width": 29, "height": 64 }
+		},
+		"4": {
+			"Lv15/Demo/4": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv14/Demo/4": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"Rock": {
+			"Lv15/C/Rock": { "x": 666.5, "y": -238, "width": 73, "height": 72 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

@@ -1,0 +1,13 @@
+Torch.png
+size:135,46
+filter:Linear,Linear
+pma:true
+Torch/Fire
+bounds:43,6,37,38
+Torch/Fire2
+bounds:2,5,39,39
+Torch/Fire3
+bounds:82,4,40,31
+rotate:90
+Torch/Torch
+bounds:115,2,18,42

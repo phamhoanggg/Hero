@@ -1,0 +1,37 @@
+{ "skeleton": { "images": "H:/My Drive/Choco/Project01/Anim/LogoGame/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "TitleGame", "bone": "root", "attachment": "Loading/TitleGame" },
+	{ "name": "Rewind & Rescue", "bone": "root", "attachment": "Loading/Rewind & Rescue" },
+	{ "name": "Hero", "bone": "root", "attachment": "Loading/Hero" },
+	{ "name": "Replay", "bone": "root", "attachment": "Loading/Replay" },
+	{ "name": "Sword", "bone": "root", "attachment": "Loading/Sword" },
+	{ "name": "TransLogo", "bone": "root", "attachment": "TransLogo" }
+],
+"skins": {
+	"default": {
+		"TitleGame": {
+			"Loading/TitleGame": { "x": 12.5, "y": 38.5, "width": 365, "height": 437 }
+		},
+		"Rewind & Rescue": {
+			"Loading/Rewind & Rescue": { "x": 10, "y": -147.5, "width": 324, "height": 35 }
+		},
+		"Hero": {
+			"Loading/Hero": { "x": 16, "y": -58.5, "width": 328, "height": 155 }
+		},
+		"Replay": {
+			"Loading/Replay": { "x": 7, "y": 47.5, "width": 324, "height": 97 }
+		},
+		"Sword": {
+			"Loading/Sword": { "x": 13, "y": 104, "width": 86, "height": 276 }
+		},
+		"TransLogo": {
+			"TransLogo": { "x": 29.5, "y": -526.5, "width": 209, "height": 197 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

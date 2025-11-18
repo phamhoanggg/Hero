@@ -1,0 +1,138 @@
+{ "skeleton": { "images": "H:/My Drive/Choco/Project01/Levels/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Color Fill 1", "bone": "root", "attachment": "Lv16/Color Fill 1" },
+	{ "name": "A", "bone": "root", "attachment": "Lv16/A/A" },
+	{ "name": "C", "bone": "root", "attachment": "Lv16/C/C" },
+	{ "name": "B", "bone": "root", "attachment": "Lv16/B" },
+	{ "name": "1", "bone": "root", "attachment": "Lv16/Demo/1" },
+	{ "name": "2", "bone": "root", "attachment": "Lv16/Demo/2" },
+	{ "name": "3", "bone": "root", "attachment": "Lv16/Demo/3" },
+	{ "name": "Shield", "bone": "root", "attachment": "Lv17/B1/Op2/Shield" },
+	{ "name": "Hive", "bone": "root", "attachment": "Lv18/C/Hive" },
+	{ "name": "Bow", "bone": "root", "attachment": "Lv18/B1/Op2/Bow" },
+	{ "name": "Torch", "bone": "root", "attachment": "Lv18/B1/Op3/Torch" },
+	{ "name": "1-1", "bone": "root", "attachment": "Lv18/Demo/1-1" },
+	{ "name": "1-2", "bone": "root", "attachment": "Lv18/Demo/1-2" },
+	{ "name": "2-1", "bone": "root", "attachment": "Lv18/Demo/2-1" },
+	{ "name": "2-2", "bone": "root", "attachment": "Lv18/Demo/2-2" },
+	{ "name": "3-1", "bone": "root", "attachment": "Lv18/Demo/3-1" },
+	{ "name": "3-2", "bone": "root", "attachment": "Lv18/Demo/3-2" },
+	{ "name": "B1", "bone": "root", "attachment": "Lv19/B1" },
+	{ "name": "B2", "bone": "root", "attachment": "Lv19/B2" },
+	{ "name": "BangChuyen-Left", "bone": "root", "attachment": "Lv20/B1/BangChuyen-Left" },
+	{ "name": "Control-Left", "bone": "root", "attachment": "Lv20/B1/Op3/Control-Left" },
+	{ "name": "BangChuyen-Right", "bone": "root", "attachment": "Lv20/B1/Op3/BangChuyen-Right" },
+	{ "name": "Control-Right", "bone": "root", "attachment": "Lv20/B1/Op3/Control-Right" },
+	{ "name": "Control-Right copy", "bone": "root", "attachment": "Lv20/B1/Op3/Control-Right copy" },
+	{ "name": "4", "bone": "root", "attachment": "Lv20/Demo/4" },
+],
+"skins": {
+	"default": {
+		"Color Fill 1": {
+			"Lv17/Color Fill 1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv16/Color Fill 1": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"A": {
+			"Lv20/A/A": { "x": 54.5, "y": -812.5, "width": 109, "height": 935 },
+			"Lv19/A/A": { "x": 54.5, "y": -327, "width": 109, "height": 36 },
+			"Lv18/A/A": { "x": 109.5, "y": -864, "width": 219, "height": 832 },
+			"Lv17/A/A": { "x": 109.5, "y": -795, "width": 219, "height": 970 },
+			"Lv16/A/A": { "x": 108, "y": -794, "width": 216, "height": 972 }
+		},
+		"C": {
+			"Lv20/C/C": { "x": 664.5, "y": -864.5, "width": 111, "height": 831 },
+			"Lv19/C/C": { "x": 664.5, "y": -847.5, "width": 111, "height": 865 },
+			"Lv18/C/C": { "x": 593.5, "y": -759.5, "width": 253, "height": 1041 },
+			"Lv17/C/C": { "x": 593.5, "y": -794, "width": 253, "height": 972 },
+			"Lv16/C/C": { "x": 593.5, "y": -864.5, "width": 253, "height": 831 }
+		},
+		"B": {
+			"Lv18/B": { "x": 341.5, "y": -864, "width": 251, "height": 832 },
+			"Lv17/B": { "x": 288, "y": -465.5, "width": 144, "height": 35 },
+			"Lv16/B": { "x": 342, "y": -432, "width": 252, "height": 174 }
+		},
+		"1": {
+			"Lv20/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv19/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv17/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv16/Demo/1": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"2": {
+			"Lv20/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv19/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv17/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv16/Demo/2": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"3": {
+			"Lv20/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv19/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv17/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 },
+			"Lv16/Demo/3": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"Shield": {
+			"Lv17/B1/Op2/Shield": { "x": 288.5, "y": -411, "width": 29, "height": 64 }
+		},
+		"Hive": {
+			"Lv18/C/Hive": { "x": 575, "y": -307, "width": 66, "height": 72 }
+		},
+		"Bow": {
+			"Lv20/B1/Op2/Bow": { "x": 169, "y": -304.5, "width": 54, "height": 63 },
+			"Lv19/B1/Op2/Bow": { "x": 203, "y": -275.5, "width": 54, "height": 63 },
+			"Lv18/B1/Op2/Bow": { "x": 345, "y": -414.5, "width": 54, "height": 63 }
+		},
+		"Torch": {
+			"Lv20/B2/Op2/Torch": { "x": 417, "y": -453, "width": 40, "height": 56 },
+			"Lv18/B1/Op3/Torch": { "x": 342, "y": -412, "width": 40, "height": 56 }
+		},
+		"1-1": {
+			"Lv18/Demo/1-1": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"1-2": {
+			"Lv18/Demo/1-2": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"2-1": {
+			"Lv18/Demo/2-1": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"2-2": {
+			"Lv18/Demo/2-2": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"3-1": {
+			"Lv18/Demo/3-1": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"3-2": {
+			"Lv18/Demo/3-2": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		},
+		"B1": {
+			"Lv20/B1": { "x": 234.5, "y": -812.5, "width": 251, "height": 935 },
+			"Lv19/B1": { "x": 234.5, "y": -794.5, "width": 251, "height": 971 }
+		},
+		"B2": {
+			"Lv20/B2/B2": { "x": 484, "y": -640.5, "width": 254, "height": 1281 },
+			"Lv19/B2": { "x": 483.5, "y": -742, "width": 253, "height": 1078 }
+		},
+		"BangChuyen-Left": {
+			"Lv20/B1/BangChuyen-Left": { "x": 304.5, "y": -362.5, "width": 111, "height": 39 }
+		},
+		"Control-Left": {
+			"Lv20/B1/Op3/Control-Left": { "x": 154.5, "y": -322.5, "width": 57, "height": 45 }
+		},
+		"BangChuyen-Right": {
+			"Lv20/B1/Op3/BangChuyen-Right": { "x": 304.5, "y": -362.5, "width": 111, "height": 39 }
+		},
+		"Control-Right": {
+			"Lv20/B1/Op3/Control-Right": { "x": 172, "y": -323, "width": 56, "height": 44 }
+		},
+		"Control-Right copy": {
+			"Lv20/B1/Op3/Control-Right copy": { "x": 172, "y": -323, "width": 56, "height": 44 }
+		},
+		"4": {
+			"Lv20/Demo/4": { "x": 360, "y": -640, "width": 720, "height": 1280 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

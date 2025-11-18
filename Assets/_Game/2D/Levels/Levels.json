@@ -1,0 +1,43 @@
+{ "skeleton": { "images": "H:/My Drive/Choco/Project01/Levels/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "A", "bone": "root", "attachment": "Lv14/A/A" },
+	{ "name": "Bow", "bone": "root", "attachment": "Lv14/A/Bow" },
+	{ "name": "Arrow", "bone": "root", "attachment": "Lv14/C/Arrow" },
+	{ "name": "C1", "bone": "root", "attachment": "Lv14/C/C1" },
+	{ "name": "C", "bone": "root", "attachment": "Lv14/C/C" },
+	{ "name": "B", "bone": "root", "attachment": "Lv14/B1/B" },
+	{ "name": "B1", "bone": "root", "attachment": "Lv14/B1/B1" }
+],
+"skins": {
+	"default": {
+		"A": {
+			"Lv14/A/A": { "x": 61, "y": -758, "width": 122, "height": 1044 }
+		},
+		"Bow": {
+			"Lv14/C/Bow": { "x": 622, "y": -212, "width": 20, "height": 40 },
+			"Lv14/A/Bow": { "x": 164, "y": -255, "width": 56, "height": 64 }
+		},
+		"Arrow": {
+			"Lv14/C/Arrow": { "x": 621.5, "y": -244, "width": 11, "height": 36 }
+		},
+		"C1": {
+			"Lv14/C/C1": { "x": 661.5, "y": -197, "width": 119, "height": 42 }
+		},
+		"C": {
+			"Lv14/C/C": { "x": 660.5, "y": -848.5, "width": 119, "height": 863 }
+		},
+		"B": {
+			"Lv14/B2/Op1/B": { "x": 483, "y": -899, "width": 240, "height": 856 },
+			"Lv14/B1/B": { "x": 242, "y": -785, "width": 244, "height": 990 }
+		},
+		"B1": {
+			"Lv14/B1/B1": { "x": 325.5, "y": -378.5, "width": 55, "height": 185 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

@@ -1,0 +1,16 @@
+LogoGame.png
+size:369,821
+filter:Linear,Linear
+pma:true
+Loading/Hero
+bounds:2,189,328,154
+offsets:0,1,328,155
+Loading/Replay
+bounds:2,90,324,97
+Loading/Rewind & Rescue
+bounds:2,784,324,35
+Loading/Sword
+bounds:2,2,86,276
+rotate:90
+Loading/TitleGame
+bounds:2,345,365,437

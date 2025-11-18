@@ -1,0 +1,100 @@
+{
+"skeleton": {
+	"hash": "WV5HeVKa4VY",
+	"spine": "4.2.38",
+	"x": -55,
+	"y": -20,
+	"width": 110,
+	"height": 39,
+	"images": "./images/",
+	"audio": "./audio"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Gear1", "parent": "root", "x": -39, "y": -0.5, "color": "abe323ff", "icon": "arrowLeftRight" },
+	{ "name": "Gear2", "parent": "root", "x": 37, "y": -0.5 },
+	{ "name": "On1", "parent": "root", "length": 6.24, "rotation": -179.36, "x": -2.84, "y": 0.06 },
+	{ "name": "On2", "parent": "root", "length": 5.96, "rotation": -1.35, "x": 1.93, "y": -0.01 }
+],
+"slots": [
+	{ "name": "Bar", "bone": "root", "attachment": "BangChuyen/Bar" },
+	{ "name": "Gear1", "bone": "Gear1", "attachment": "BangChuyen/Gear1" },
+	{ "name": "Gear2", "bone": "Gear2", "attachment": "BangChuyen/Gear2" },
+	{ "name": "On1", "bone": "On1", "attachment": "BangChuyen/Off2" },
+	{ "name": "On2", "bone": "On2", "attachment": "BangChuyen/Off1" },
+	{ "name": "Off1", "bone": "root" }
+],
+"transform": [
+	{
+		"name": "Gear1",
+		"bones": [ "Gear2" ],
+		"target": "Gear1",
+		"local": true,
+		"x": 76,
+		"mixX": 0,
+		"mixScaleX": 0,
+		"mixShearY": 0
+	}
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Bar": {
+				"BangChuyen/Bar": { "y": -0.5, "width": 110, "height": 39 }
+			},
+			"Gear1": {
+				"BangChuyen/Gear1": { "width": 20, "height": 21 }
+			},
+			"Gear2": {
+				"BangChuyen/Gear2": { "width": 20, "height": 21 }
+			},
+			"On1": {
+				"BangChuyen/Off2": { "x": 6.17, "y": 0.49, "rotation": 179.36, "width": 14, "height": 21 },
+				"BangChuyen/On1": { "x": 7.66, "y": -0.03, "rotation": 179.36, "width": 17, "height": 26 }
+			},
+			"On2": {
+				"BangChuyen/Off1": { "x": 6.58, "y": -0.33, "rotation": 1.35, "width": 13, "height": 21 },
+				"BangChuyen/On2": { "x": 8.57, "y": 0.22, "rotation": 1.35, "width": 17, "height": 26 }
+			}
+		}
+	}
+],
+"animations": {
+	"Off": {},
+	"On-Left": {
+		"slots": {
+			"On1": {
+				"attachment": [
+					{ "name": "BangChuyen/On1" }
+				]
+			}
+		},
+		"bones": {
+			"Gear1": {
+				"rotate": [
+					{},
+					{ "time": 2, "value": 360 }
+				]
+			}
+		}
+	},
+	"On-Left2": {
+		"slots": {
+			"On2": {
+				"attachment": [
+					{ "name": "BangChuyen/On2" }
+				]
+			}
+		},
+		"bones": {
+			"Gear1": {
+				"rotate": [
+					{ "value": 360 },
+					{ "time": 2 }
+				]
+			}
+		}
+	}
+}
+}

@@ -1,0 +1,12 @@
+Bee.png
+size:77,16
+filter:Linear,Linear
+pma:true
+Hive/BeeDie
+bounds:30,2,26,12
+Hive/Body
+bounds:2,2,26,12
+Hive/Wings1
+bounds:58,4,7,10
+Hive/Wings2
+bounds:67,6,8,8

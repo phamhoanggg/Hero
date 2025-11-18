@@ -1,0 +1,21 @@
+{ "skeleton": { "images": "H:/My Drive/Choco/Project01/MakingMap/AnimMap/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Fire2", "bone": "root", "attachment": "Torch/Fire2" },
+	{ "name": "Fire3", "bone": "root", "attachment": "Torch/Fire3" }
+],
+"skins": {
+	"default": {
+		"Fire2": {
+			"Torch/Fire2": { "x": 1.5, "y": 12.5, "width": 39, "height": 39 }
+		},
+		"Fire3": {
+			"Torch/Fire3": { "x": 2, "y": 8.5, "width": 40, "height": 31 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

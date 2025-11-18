@@ -1,0 +1,14 @@
+Tuts.png
+size:228,477
+filter:Linear,Linear
+pma:true
+GamePlay/Arrow
+bounds:2,137,149,224
+offsets:1,1,151,226
+rotate:90
+GamePlay/FxTap
+bounds:2,288,188,187
+offsets:1,1,190,189
+GamePlay/tap
+bounds:2,2,133,211
+rotate:90

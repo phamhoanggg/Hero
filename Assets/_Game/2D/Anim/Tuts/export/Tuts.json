@@ -1,0 +1,172 @@
+{
+"skeleton": { "hash": "LnFSBQmJxl8", "spine": "4.2.38", "images": "./images/", "audio": "D:/BlockPaint/Tuts" },
+"bones": [
+	{ "name": "root", "shearY": 0.12 },
+	{ "name": "Popup", "parent": "root" },
+	{
+		"name": "HandTut",
+		"parent": "Popup",
+		"length": 169.43,
+		"rotation": 95.8,
+		"x": 16.46,
+		"y": -55.42,
+		"color": "710da4ff"
+	},
+	{
+		"name": "HandTut4",
+		"parent": "HandTut",
+		"length": 113.24,
+		"rotation": 5.21,
+		"x": 233.93,
+		"y": 84.85,
+		"color": "ce6fffff"
+	},
+	{ "name": "FxZoom", "parent": "Popup" },
+	{ "name": "Arrow1", "parent": "FxZoom", "length": 219.02, "rotation": -179.57, "x": 188.05, "y": 1.16 },
+	{ "name": "FxTap", "parent": "FxZoom" }
+],
+"slots": [
+	{ "name": "FxTap", "bone": "FxTap" },
+	{ "name": "HandTut", "bone": "HandTut" },
+	{ "name": "Arrow1", "bone": "Arrow1" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"Arrow1": {
+				"GamePlay/Arrow": { "x": 110.47, "y": 1.69, "rotation": 89.57, "width": 151, "height": 226 }
+			},
+			"FxTap": {
+				"GamePlay/FxTap": { "width": 190, "height": 189 }
+			},
+			"HandTut": {
+				"GamePlay/tap": {
+					"type": "mesh",
+					"uvs": [ 0.30882, 0.36763, 0.31358, 0.26423, 0.43307, 0.23035, 0.7229, 0.28723, 1, 0.40937, 1, 0.70386, 0.90787, 1, 0.2496, 1, 0, 0.67419, 0.06897, 0.39765, 0, 0.09141, 0, 0, 0.2107, 0, 0.19707, 0.39422 ],
+					"triangles": [ 9, 10, 13, 13, 10, 0, 12, 0, 10, 10, 11, 12, 6, 7, 5, 0, 5, 8, 5, 0, 3, 8, 5, 7, 8, 9, 13, 3, 0, 2, 0, 1, 2, 0, 8, 13, 3, 4, 5 ],
+					"vertices": [ 2, 2, 237.21, 55.67, 0.65, 3, 0.62, -29.36, 0.35, 1, 2, 280.17, 50.05, 1, 1, 2, 291.1, 17.27, 1, 1, 2, 259.68, -56.34, 1, 1, 2, 201.4, -123.86, 1, 1, 2, 78.68, -111.39, 1, 1, 2, -42.27, -74.68, 1, 1, 2, -24.72, 97.98, 1, 1, 2, 117.7, 149.65, 1, 2, 2, 231.09, 119.86, 0.65, 3, 0.36, 35.12, 0.35, 2, 2, 360.54, 124.98, 0.01429, 3, 129.74, 28.46, 0.98571, 2, 2, 398.63, 121.11, 0.01429, 3, 167.32, 21.15, 0.98571, 2, 2, 393.02, 65.84, 0.01429, 3, 156.71, -33.38, 0.98571, 2, 2, 229.11, 86.11, 0.65, 3, -4.68, 1.69, 0.35 ],
+					"hull": 13,
+					"edges": [ 0, 26, 26, 18, 20, 22, 18, 20, 22, 24, 0, 24, 0, 2, 2, 4, 4, 6, 6, 8, 18, 16, 16, 14, 8, 10, 12, 14, 10, 12 ],
+					"width": 133,
+					"height": 211
+				}
+			}
+		}
+	}
+],
+"animations": {
+	"Click": {
+		"slots": {
+			"FxTap": {
+				"rgba": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.2667, "color": "ffffff00" },
+					{ "time": 0.4, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.7333, "color": "ffffffff" },
+					{ "time": 1.1667, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0.2667, "name": "GamePlay/FxTap" }
+				]
+			},
+			"HandTut": {
+				"attachment": [
+					{ "name": "GamePlay/tap" }
+				]
+			}
+		},
+		"bones": {
+			"HandTut": {
+				"rotate": [
+					{ "value": 5.8 }
+				],
+				"translate": [
+					{ "x": 180.2, "y": -270.32 }
+				]
+			},
+			"HandTut4": {
+				"rotate": [
+					{
+						"curve": [ 0.022, 0, 0.044, -7.46 ]
+					},
+					{
+						"time": 0.0667,
+						"value": -7.46,
+						"curve": [ 0.111, -7.46, 0.156, -7.46 ]
+					},
+					{
+						"time": 0.2,
+						"value": -7.46,
+						"curve": [ 0.222, -7.46, 0.244, 10.13 ]
+					},
+					{
+						"time": 0.2667,
+						"value": 10.76,
+						"curve": [ 0.289, 11.39, 0.311, 11.39 ]
+					},
+					{
+						"time": 0.3333,
+						"value": 11.39,
+						"curve": [ 0.389, 11.39, 0.444, 0 ]
+					},
+					{ "time": 0.5 }
+				]
+			},
+			"FxTap": {
+				"scale": [
+					{ "x": 0.252, "y": 0.252, "curve": "stepped" },
+					{ "time": 0.2667, "x": 0.252, "y": 0.252 },
+					{ "time": 0.4667, "x": 1.544, "y": 1.544 },
+					{ "time": 1.1667, "x": 1.682, "y": 1.682 }
+				]
+			}
+		}
+	},
+	"Swipe": {
+		"slots": {
+			"Arrow1": {
+				"rgba": [
+					{ "color": "ffffff00" },
+					{ "time": 0.1333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.5333, "color": "ffffffff" },
+					{ "time": 0.8, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "name": "GamePlay/Arrow" }
+				]
+			},
+			"HandTut": {
+				"attachment": [
+					{ "name": "GamePlay/tap" }
+				]
+			}
+		},
+		"bones": {
+			"HandTut": {
+				"translate": [
+					{ "x": 114.76, "y": 95.69 },
+					{ "time": 0.4, "x": 113.65, "y": -434.98 },
+					{ "time": 0.9667, "x": 113.54, "y": -490.84, "curve": "stepped" },
+					{ "time": 1.3333, "x": 114.76, "y": 95.69 }
+				]
+			},
+			"Arrow1": {
+				"rotate": [
+					{ "value": -90 }
+				],
+				"translate": [
+					{ "x": -179.77, "y": 408.59 },
+					{ "time": 0.1333, "x": -180.11, "y": 242.4 },
+					{ "time": 0.4, "x": -180.98, "y": -175.63 },
+					{ "time": 0.6667, "x": -181.08, "y": -219.56 },
+					{ "time": 0.8, "x": -181.12, "y": -241.52 }
+				],
+				"scale": [
+					{ "x": 1.685, "y": 1.685 }
+				]
+			}
+		}
+	}
+}
+}
