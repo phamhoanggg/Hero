@@ -13,19 +13,23 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     [Space]
     [SerializeField] Transform shieldRoot;
     [SerializeField] Transform shieldTf;
+    public Transform PlayerTf => tf;
 
     private Key key;
     int checkpointIndex;
     bool hasKey;
 
     List<Tween> tweenMoveStack;
+
     public void StartMove()
     {
         route = CoregameManager.Ins.GenerateRouteForPlayer();
         checkpointIndex = 0;
         tweenMoveStack = new();
+        hasKey = false;
+        key = null;
         Move(checkpointIndex);
-        spine.PlayAnim(Anim.Run, true);
+        spine.Play(Anim.Run, true);
     }
     public void Move(int id)
     {
@@ -45,12 +49,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
 
     public void Stop()
     {
-        tf.DOKill();
-        spine.PlayAnim(Anim.Idle, true);
+        tf.DOPause();
+        spine.Play(Anim.Idle, true);
     }
     public void ContinueMove()
     {
-        spine.PlayAnim(Anim.Run, true);
+        spine.Play(Anim.Run, true);
         Move(checkpointIndex);
     }
 
@@ -67,14 +71,17 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
             shieldRoot.DORotate(Vector3.forward * 90, 0.25f);
         }
 
+        if (CoregameManager.Ins.IsReversing) return;
         Invoke(nameof(ContinueMove), 0.3f);
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (CoregameManager.Ins.IsReversing) return;
+
         if (other.CompareTag("Die"))
         {
             tf.DOKill();
-            spine.PlayAnim(Anim.Die);
+            spine.Play(Anim.Die);
             CoregameManager.Ins.Invoke(nameof(CoregameManager.Ins.Reverve), 0.25f);
         }
         else if (other.CompareTag("Chest"))
@@ -84,6 +91,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
             Stop();
             key.PlayPutInLockAnim(() =>
             {
+                if (CoregameManager.Ins.IsReversing) return;
                 Chest chest = other.GetComponent<Chest>();
                 chest.Open();
                 GetShield(chest.ShieldDirection);
@@ -91,8 +99,8 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
 
         }else if (other.CompareTag("Key"))
         {
-            other.transform.SetParent(tf);
             key = other.GetComponent<Key>();
+            key.OnCollected();
             hasKey = true;
         }
     }
@@ -104,7 +112,8 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
         foreach (var tween in tweenMoveStack)
             tween.timeScale = reverseTimeScale;
 
-        spine.PlayAnim(Anim.Run, true, -1);
+        Glitch.Ins.Play();
+        spine.Play(Anim.Run, true, -1);
         tweenMoveStack[checkpointIndex].PlayBackwards();
     }
 
@@ -121,8 +130,9 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     public void ReverseCompleted()
     {
         Debug.Log("Completed");
+        Glitch.Ins.ResetNoise();
         CoregameManager.Ins.ReverseCompleted();
-        spine.PlayAnim(Anim.Idle, true);
+        spine.Play(Anim.Idle, true);
         foreach (var tween in tweenMoveStack)
             tween.timeScale = 1f;
     }

@@ -1,3 +1,4 @@
+using Spine;
 using Spine.Unity;
 using UnityEngine;
 
@@ -8,19 +9,70 @@ public abstract class CharacterSpineController : MonoBehaviour
     public bool InitRight = true;
     public Anim StartingAnim;
 
-    private void Start()
+    private TrackEntry currentTrack;
+    void Awake()
     {
-        mainSpine.initialFlipX = !InitRight;
-        PlayAnim(StartingAnim, true);
+        if (mainSpine == null)
+            mainSpine = GetComponent<SkeletonGraphic>();
     }
 
-    public void PlayAnim(Anim anim, bool loop = false, float timeScale = 1)
+    void Start()
+    {
+        if (!string.IsNullOrEmpty(StartingAnim.ToString()))
+            Play(StartingAnim, true, 1);
+    }
+
+    /// <summary>
+    /// Play a UI Spine animation by name with specified loop & speed.
+    /// </summary>
+    public void Play(Anim animName, bool loop = true, float timeScale = 1f)
+    {
+        // Stop/clear previous animation
+        mainSpine.AnimationState.ClearTrack(0);
+
+        // Make sure animation exists
+        Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName.ToString());
+        if (anim == null)
+        {
+            Debug.LogWarning($"[Spine UI] Animation '{animName}' not found!");
+            return;
+        }
+
+        // Start animation
+        currentTrack = mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);
+
+        // Set speed
+        currentTrack.TimeScale = timeScale;
+
+        // Keep global timescale default (to avoid affecting all)
+        mainSpine.timeScale = 1f;
+    }
+
+    /// <summary>
+    /// Play an animation backwards with a custom speed.
+    /// </summary>
+    public void PlayReverse(Anim animName, float reverseSpeed = 1f)
     {
         mainSpine.AnimationState.ClearTrack(0);
-        mainSpine.timeScale = timeScale;
-        mainSpine.AnimationState.SetAnimation(0, anim.ToString(), loop);
+
+        Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName.ToString());
+        if (anim == null)
+        {
+            Debug.LogWarning($"[Spine UI] Animation '{animName}' not found!");
+            return;
+        }
+
+        // Play forward first (required to get TrackEntry)
+        currentTrack = mainSpine.AnimationState.SetAnimation(0, animName.ToString(), false);
+
+        // Move playback position to animation end
+        currentTrack.TrackTime = anim.Duration;
+
+        // Negative speed = backward play
+        currentTrack.TimeScale = -Mathf.Abs(reverseSpeed);
     }
 }
+
 
 public enum Skin
 {

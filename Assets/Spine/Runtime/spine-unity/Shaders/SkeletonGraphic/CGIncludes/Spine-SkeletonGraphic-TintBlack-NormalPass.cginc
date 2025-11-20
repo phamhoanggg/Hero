@@ -19,7 +19,7 @@ struct VertexInput {
 struct VertexOutput {
 	float4 vertex   : SV_POSITION;
 	half4 color    : COLOR;
-	float2 texcoord  : TEXCOORD0;
+	half2 texcoord  : TEXCOORD0;
 	float4 darkColor : TEXCOORD1;
 	float4 worldPosition : TEXCOORD2;
 #ifdef _CANVAS_GROUP_COMPATIBLE
