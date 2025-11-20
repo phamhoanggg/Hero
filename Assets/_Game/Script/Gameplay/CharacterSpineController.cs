@@ -11,6 +11,14 @@ public abstract class CharacterSpineController : MonoBehaviour
     private void Start()
     {
         mainSpine.initialFlipX = !InitRight;
+        PlayAnim(StartingAnim, true);
+    }
+
+    public void PlayAnim(Anim anim, bool loop = false, float timeScale = 1)
+    {
+        mainSpine.AnimationState.ClearTrack(0);
+        mainSpine.timeScale = timeScale;
+        mainSpine.AnimationState.SetAnimation(0, anim.ToString(), loop);
     }
 }
 
