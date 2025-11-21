@@ -27,16 +27,15 @@ public abstract class CharacterSpineController : MonoBehaviour
     /// </summary>
     public void Play(Anim animName, bool loop = true, float timeScale = 1f)
     {
-        // Stop/clear previous animation
-        mainSpine.AnimationState.ClearTrack(0);
+        mainSpine.AnimationState.SetEmptyAnimation(0, 0);
 
-        // Make sure animation exists
-        Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName.ToString());
-        if (anim == null)
-        {
-            Debug.LogWarning($"[Spine UI] Animation '{animName}' not found!");
-            return;
-        }
+        //// Make sure animation exists
+        //Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName.ToString());
+        //if (anim == null)
+        //{
+        //    Debug.LogWarning($"[Spine UI] Animation '{animName}' not found!");
+        //    return;
+        //}
 
         // Start animation
         currentTrack = mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);

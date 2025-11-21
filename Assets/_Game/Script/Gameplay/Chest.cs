@@ -10,7 +10,7 @@ public class Chest : RewindableObject
     {
         chestClose.SetActive(false);
         chestOpen.SetActive(true);
-        CoregameManager.Ins.listRewindEvent.Add(new(Time.time - CoregameManager.Ins.startgameStamp, "Chest Open", () =>
+        CoregameManager.Ins.listRewindEvent.Add(new("Chest Open", () =>
         {
             Close();
         }));

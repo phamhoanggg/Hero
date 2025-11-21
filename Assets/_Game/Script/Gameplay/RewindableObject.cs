@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class RewindableObject : MonoBehaviour
@@ -8,13 +9,19 @@ public class RewindableObject : MonoBehaviour
     public float StartTimeStamp_SinceGameStart;
     public float EndTimeStamp_SinceGameStart;
 
-    private void Start()
+    private void OnDisable()
+    {
+        CoregameManager.Ins.OnRewind -= DelegateRewind;
+    }
+    public virtual void Start()
     {
         rootParent = transform.parent;
         rootPosition = GetComponent<RectTransform>().anchoredPosition;
         rootEuler = transform.localEulerAngles;
+        CoregameManager.Ins.OnRewind += DelegateRewind;
     }
-    public virtual void Reverse()
+
+    public virtual void  DelegateRewind()
     {
 
     }

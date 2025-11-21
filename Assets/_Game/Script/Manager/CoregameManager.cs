@@ -13,6 +13,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     public CheckPoint Door;
     public float reverseRatio;
     public List<EventCheckpoint> listRewindEvent;
+    public Action OnRewind;
     public float startgameStamp { get; private set; }
     public bool IsReversing { get; private set; }
     public void Play()
@@ -20,16 +21,24 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         PlayerMove.Ins.StartMove();
         foreach (var zone in zones) zone.gameObject.SetActive(false);
         listRewindEvent = new();
-        startgameStamp = Time.time;
+        startgameStamp = Time.realtimeSinceStartup;
         IsReversing = false;
     }
 
     public void Reverve()
     {
+        if (IsReversing) return;
+
         PlayerMove.Ins.StartReverse();
         IsReversing = true;
-        float startReverseTimestamp = Time.time - startgameStamp;
-        StartCoroutine(ReverseCoroutine(startReverseTimestamp));
+        float startReverseTimestamp = Time.realtimeSinceStartup - startgameStamp;
+        OnRewind?.Invoke();
+        foreach (var ev in listRewindEvent)
+        {
+
+        }
+
+        //StartCoroutine(ReverseCoroutine(startReverseTimestamp));
     }
 
     IEnumerator ReverseCoroutine(float startReverse)
@@ -37,7 +46,9 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         for (int i = listRewindEvent.Count - 1; i >= 0; i--)
         {
             var ev = listRewindEvent[i];
-            yield return new WaitForSeconds((startReverse - ev.triggerReverse_timeStamp) / reverseRatio);
+            float waitTime = startReverse - ev.triggerReverse_timeStamp;
+            if (waitTime < 0) waitTime = 0;
+            yield return new WaitForSeconds(waitTime / reverseRatio);
             ev.reverseAction?.Invoke();
             Debug.Log("Invoked: " + ev.eventName);
             startReverse = ev.triggerReverse_timeStamp;
@@ -71,12 +82,14 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 public class EventCheckpoint
 {
     public float triggerReverse_timeStamp;
+    public Vector2 playerPosition;
     public string eventName;
     public Action reverseAction;
-    public EventCheckpoint(float triggerReverse_timeStamp, string name, Action reverseAction)
+    public EventCheckpoint(string name, Action reverseAction)
     {
-        this.triggerReverse_timeStamp = triggerReverse_timeStamp;
+        this.triggerReverse_timeStamp = Time.realtimeSinceStartup - CoregameManager.Ins.startgameStamp;
         this.eventName = name;
+        playerPosition = PlayerMove.Ins.PlayerTf.position;
         this.reverseAction = reverseAction;
     }
 }

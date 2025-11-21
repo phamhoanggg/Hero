@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrows: {fileID: 6188877746966076603}
   targetTf: {fileID: 5543914274586177883}
-  speed: 4.5
+  speed: 4.25
 --- !u!61 &3239211099408973944
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -740,4 +740,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0780d3642f796046a08a7a3cba81c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rootParent: {fileID: 0}
+  rootPosition: {x: 0, y: 0}
+  rootEuler: {x: 0, y: 0, z: 0}
+  StartTimeStamp_SinceGameStart: 0
+  EndTimeStamp_SinceGameStart: 0
   tf: {fileID: 1819054215471626116}
