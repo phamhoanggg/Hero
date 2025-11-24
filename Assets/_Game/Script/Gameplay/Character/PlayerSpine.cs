@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerSpine : CharacterSpineController
+public class PlayerSpine : SpineController
 {
     
 }

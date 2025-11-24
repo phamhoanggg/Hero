@@ -1,11 +1,9 @@
 
 using UnityEngine;
 
-public class EnemySpine : CharacterSpineController
+public class EnemySpine : SpineController
 {
     [SerializeField] float attackRange;
-    [SerializeField] CircleCollider2D attackSensorCol;
-    [SerializeField] Anim attackAnim;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
