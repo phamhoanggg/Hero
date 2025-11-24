@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class GamePanel : MonoBehaviour
 {
-    [SerializeField] GameObject playButton;
-    [SerializeField] GameObject reverseButton;
+    public GameObject playButton;
+    public GameObject reverseButton;
 
     public void ReverseCompleted()
     {
@@ -16,12 +16,14 @@ public class GamePanel : MonoBehaviour
         CoregameManager.Ins.Play();
         playButton.SetActive(false);
         reverseButton.SetActive(true);
+        VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
     }
 
     public void ReverseButton()
     {
         CoregameManager.Ins.Reverve();
         reverseButton.SetActive(false);
+        VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
     }
     #endregion
 }

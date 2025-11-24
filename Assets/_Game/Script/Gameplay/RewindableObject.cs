@@ -9,10 +9,10 @@ public class RewindableObject : MonoBehaviour
     public float StartTimeStamp_SinceGameStart;
     public float EndTimeStamp_SinceGameStart;
 
-    private void OnDisable()
-    {
-        CoregameManager.Ins.OnRewind -= DelegateRewind;
-    }
+    //private void OnDestroy()
+    //{
+    //    CoregameManager.Ins.OnRewind -= DelegateRewind;
+    //}
     public virtual void Start()
     {
         rootParent = transform.parent;

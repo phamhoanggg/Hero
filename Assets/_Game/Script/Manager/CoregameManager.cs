@@ -8,18 +8,25 @@ using UnityEngine;
 public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 {
     public GamePanel GamePanel;
+    public RectTransform GameplayHolder;
     public readonly float BASE_CAMERA_SIZE = 6.4f;
-    public ZoneSwitcher[] zones;
-    public CheckPoint Door;
     public float reverseRatio;
     public List<EventCheckpoint> listRewindEvent;
     public Action OnRewind;
     public float startgameStamp { get; private set; }
     public bool IsReversing { get; private set; }
+
+    public List<Level> listLevel;
+    public Level currentLevel;
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+        //Play();
+    }
     public void Play()
     {
         PlayerMove.Ins.StartMove();
-        foreach (var zone in zones) zone.gameObject.SetActive(false);
+        foreach (var zone in currentLevel.zones) zone.gameObject.SetActive(false);
         listRewindEvent = new();
         startgameStamp = Time.realtimeSinceStartup;
         IsReversing = false;
@@ -28,19 +35,25 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     public void Reverve()
     {
         if (IsReversing) return;
-
+        GamePanel.reverseButton.SetActive(false);
         PlayerMove.Ins.StartReverse();
         IsReversing = true;
-        float startReverseTimestamp = Time.realtimeSinceStartup - startgameStamp;
         OnRewind?.Invoke();
-        foreach (var ev in listRewindEvent)
-        {
-
-        }
 
         //StartCoroutine(ReverseCoroutine(startReverseTimestamp));
     }
 
+    public void Win()
+    {
+        GamePanel.reverseButton.SetActive(false);
+        GamePanel.playButton.SetActive(false);
+        LoadSceneManager.Ins.LoadScene(SceneId.Game, () => { });
+    }
+
+    public void ShakeCamera()
+    {
+        GameplayHolder.DOShakeAnchorPos(0.5f, strength: new Vector2(0f, 50));
+    }
     IEnumerator ReverseCoroutine(float startReverse)
     {
         for (int i = listRewindEvent.Count - 1; i >= 0; i--)
@@ -58,12 +71,12 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     public void ReverseCompleted()
     {
         GamePanel.ReverseCompleted();
-        foreach (var zone in zones) zone.gameObject.SetActive(true);
+        foreach (var zone in currentLevel.zones) zone.gameObject.SetActive(true);
     }
     public List<CheckPoint> GenerateRouteForPlayer()
     {
         List<CheckPoint> route = new();
-        foreach (var zone in zones)
+        foreach (var zone in currentLevel.zones)
         {
             CheckPoint checkPoint = zone.GetFirstCheckpoint();
             while (checkPoint != null)
@@ -73,7 +86,6 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
             }
         }
 
-        route.Add(Door);
         return route;
     }
 }

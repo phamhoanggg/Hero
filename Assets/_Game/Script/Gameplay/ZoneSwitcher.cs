@@ -58,7 +58,7 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public CheckPoint GetFirstCheckpoint()
     {
-        if (entryPoints.Length == 0) return null;
+        if (entryPoints.Length <= currentOption) return null;
 
         return entryPoints[currentOption];
     }

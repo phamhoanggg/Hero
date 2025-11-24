@@ -12,7 +12,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     [SerializeField] Shield shield;
 
     public Transform PlayerTf => tf;
-
+    [SerializeField] private Door door;
     private Key key;
     int checkpointIndex;
     int reverseIndex;
@@ -21,9 +21,15 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     List<Tween> tweenMoveStack;
     float lastMoveTime;
 
+    private void Start()
+    {
+        if (door == null)
+            Debug.LogError("NO DOORRRRR");
+    }
     public void StartMove()
     {
         route = CoregameManager.Ins.GenerateRouteForPlayer();
+        if (route.Count == 0) route.Add(door.checkpoint);
         checkpointIndex = 0;
         tweenMoveStack = new();
         hasKey = false;
@@ -43,7 +49,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
                 checkpointIndex++;
                 Move(checkpointIndex);
             }
-            else lastMoveTime = Time.fixedTime;
+            else
+            {
+                CoregameManager.Ins.Win();
+                gameObject.SetActive(false);
+                door.Close();
+            }
         });
 
         tweenMoveStack.Add(moveTween);
@@ -67,13 +78,15 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     {
         if (CoregameManager.Ins.IsReversing) return;
 
-        if (other.CompareTag("Die"))
+        if (other.CompareTag(GameConst.TAG_DIE))
         {
             tf.DOPause();
+            VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
+            CoregameManager.Ins.ShakeCamera();
             spine.Play(Anim.Die, false);
-            CoregameManager.Ins.Invoke(nameof(CoregameManager.Ins.Reverve), 0.25f);
+            CoregameManager.Ins.Invoke(nameof(CoregameManager.Ins.Reverve), 0.5f);
         }
-        else if (other.CompareTag("Chest"))
+        else if (other.CompareTag(GameConst.TAG_CHEST))
         {
             if (!hasKey) return;
 
@@ -86,7 +99,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
                 shield.GetShield(chest.ShieldDirection);
             });
 
-        }else if (other.CompareTag("Key"))
+        }else if (other.CompareTag(GameConst.TAG_KEY))
         {
             key = other.GetComponent<Key>();
             key.OnCollected();
@@ -101,7 +114,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
         {
             foreach (var ev in CoregameManager.Ins.listRewindEvent)
             {
-                if (Vector2.Distance(ev.playerPosition, PlayerTf.position) < 0.05f)
+                if (Vector2.Distance(ev.playerPosition, PlayerTf.position) < 0.25f)
                 {
                     ev.reverseAction?.Invoke();
                     CoregameManager.Ins.listRewindEvent.Remove(ev);
