@@ -21,7 +21,7 @@ public class GamePanel : MonoBehaviour
 
     public void ReverseButton()
     {
-        CoregameManager.Ins.Reverve();
+        StartCoroutine(CoregameManager.Ins.Reverve(false));
         reverseButton.SetActive(false);
         VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
     }

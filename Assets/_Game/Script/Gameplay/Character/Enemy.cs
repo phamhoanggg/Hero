@@ -1,27 +1,28 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IAnimplayer
 {
     [SerializeField] SpineController mainSpine;
     [SerializeField] WeaponSpine weaponSpine;
     [SerializeField] Skin weapon;
+    [SerializeField] Anim attackAnim;
 
     private void Awake()
     {
-        SetupWeapon(weapon);
+        SetupWeapon();
     }
 
     private void Start()
     {
         PlayAnim(Anim.Idle);
     }
-    public void SetupWeapon(Skin weaponSkin)
+    public void SetupWeapon()
     {
-        weaponSpine.SetSkin(weapon);
+        weaponSpine.SetWeapon(weapon, attackAnim);
     }
-    public void PlayAnim(Anim anim)
+    public void PlayAnim(Anim anim, bool loop = true, float timeScale = 1)
     {
-        mainSpine.Play(anim);
-        weaponSpine.Play(anim);
+        mainSpine.Play(anim, loop, timeScale);
+        weaponSpine.Play(anim, loop, timeScale);
     }
 }

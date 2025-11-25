@@ -1,5 +1,6 @@
 
 using DG.Tweening;
+using SharedModules.ED;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     public readonly float BASE_CAMERA_SIZE = 6.4f;
     public float reverseRatio;
     public List<EventCheckpoint> listRewindEvent;
-    public Action OnRewind;
     public float startgameStamp { get; private set; }
     public bool IsReversing { get; private set; }
 
@@ -32,13 +32,23 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         IsReversing = false;
     }
 
-    public void Reverve()
+    public IEnumerator Reverve(bool isDie)
     {
-        if (IsReversing) return;
+        if (IsReversing) yield break;
         GamePanel.reverseButton.SetActive(false);
-        PlayerMove.Ins.StartReverse();
+
+        if (isDie) yield return new WaitForSeconds(2f / 3);
         IsReversing = true;
-        OnRewind?.Invoke();
+        if (isDie)
+        {
+            yield return new WaitForEndOfFrame();
+
+            //PlayerMove.Ins.spine.Play(Anim.Die, false, - reverseRatio);
+            yield return new WaitForSeconds(1f / 3);
+        }
+        PlayerMove.Ins.StartReverse();
+        EventDispatcher.DispatchEvent(EventId.OnRewind);
+
 
         //StartCoroutine(ReverseCoroutine(startReverseTimestamp));
     }
@@ -71,6 +81,8 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     public void ReverseCompleted()
     {
         GamePanel.ReverseCompleted();
+        IsReversing = false;
+        EventDispatcher.DispatchEvent(EventId.OnRewindCompleted);
         foreach (var zone in currentLevel.zones) zone.gameObject.SetActive(true);
     }
     public List<CheckPoint> GenerateRouteForPlayer()

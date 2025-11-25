@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
+public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
 {
     public List<CheckPoint> route = new();
-    [SerializeField] PlayerSpine spine;
+    public PlayerSpine spine;
+    public WeaponSpine weaponSpine;
     [SerializeField] Transform tf;
     [SerializeField] float speed;
     [SerializeField] Shield shield;
@@ -35,7 +36,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
         hasKey = false;
         key = null;
         Move(checkpointIndex);
-        spine.Play(Anim.Run, true);
+        PlayAnim(Anim.Run, true);
         Debug.Log("Start move: " + Time.fixedTime);
     }
     public void Move(int id)
@@ -64,12 +65,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     {
         lastMoveTime = Time.fixedTime;
         tf.DOPause();
-        spine.Play(Anim.Idle, true);
+        PlayAnim(Anim.Idle, true);
     }
     public void ContinueMove()
     {
         tweenMoveStack.Add(DOVirtual.Float(0, 1, Time.fixedTime - lastMoveTime, (float update) => { }).SetAutoKill(false).OnRewind(ReverseStepCompleted));
-        spine.Play(Anim.Run, true);
+        PlayAnim(Anim.Run, true);
         Move(checkpointIndex);
     }
 
@@ -83,8 +84,8 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
             tf.DOPause();
             VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
             CoregameManager.Ins.ShakeCamera();
-            spine.Play(Anim.Die, false);
-            CoregameManager.Ins.Invoke(nameof(CoregameManager.Ins.Reverve), 0.5f);
+            PlayAnim(Anim.Die, false);
+            CoregameManager.Ins.StartCoroutine(CoregameManager.Ins.Reverve(true));
         }
         else if (other.CompareTag(GameConst.TAG_CHEST))
         {
@@ -108,7 +109,8 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     }
 
     #region REVERSE
-    private void Update()
+    
+    private void FixedUpdate()
     {
         if (CoregameManager.Ins.IsReversing)
         {
@@ -125,14 +127,15 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
     }
     public void StartReverse()
     {
+        float reverseScale = CoregameManager.Ins.reverseRatio;
         foreach (var tween in tweenMoveStack)
-            tween.timeScale = CoregameManager.Ins.reverseRatio;
+            tween.timeScale = reverseScale;
 
         Debug.Log("Start Reverse: " + Time.fixedTime);
 
         reverseIndex = tweenMoveStack.Count - 1;
         Glitch.Ins.Play();
-        spine.Play(Anim.Run, true, 2);
+        PlayAnim(Anim.Run, true, -reverseScale);
         tweenMoveStack[reverseIndex].PlayBackwards();
     }
 
@@ -152,8 +155,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>
         Glitch.Ins.ResetNoise();
         CoregameManager.Ins.ReverseCompleted();
         spine.Play(Anim.Idle, true);
-        foreach (var tween in tweenMoveStack)
-            tween.timeScale = 1f;
+    }
+
+    public void PlayAnim(Anim anim, bool loop = true, float timeScale = 1)
+    {
+        spine.Play(anim, loop, timeScale);
+        weaponSpine.Play(anim, loop, timeScale);
     }
     #endregion
 }

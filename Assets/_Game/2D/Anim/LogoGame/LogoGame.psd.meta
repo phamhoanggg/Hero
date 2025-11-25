@@ -123,23 +123,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: A_0
+      name: LogoGame_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 219
-        height: 796
+        x: 268
+        y: 263
+        width: 211
+        height: 199
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c6e268b90ac978780800000000000000
-      internalID: -8680797543115379092
+      spriteID: 44360627c73b37148a97423932f153da
+      internalID: 569717987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LogoGame_1
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 703
+        width: 375
+        height: 445
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4712cfbd7a540ba42b89bc30780f9379
+      internalID: 2127749974
       vertices: []
       indices: 
       edges: []
@@ -158,7 +180,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      A_0: -8680797543115379092
+      LogoGame_0: 569717987
+      LogoGame_1: 2127749974
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

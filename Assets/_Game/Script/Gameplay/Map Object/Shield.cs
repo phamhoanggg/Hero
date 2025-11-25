@@ -37,7 +37,7 @@ public class Shield : RewindableObject
         PlayerMove.Ins.Invoke(nameof(PlayerMove.Ins.ContinueMove), 0.3f);
     }
 
-    public override void DelegateRewind()
+    public override void DelegateRewind(object args)
     {
         if (seq == null || tweenCompleted) return;
         seq.Pause();

@@ -1,3 +1,4 @@
+using SharedModules.ED;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
@@ -6,13 +7,28 @@ public abstract class SpineController : MonoBehaviour
 {
     public SkeletonGraphic mainSpine;
     public bool InitRight = true;
-    public Anim StartingAnim;
 
     private TrackEntry currentTrack;
     void Awake()
     {
         if (mainSpine == null)
             mainSpine = GetComponent<SkeletonGraphic>();
+    }
+
+    private void OnEnable()
+    {
+        EventDispatcher.RegisterListener(EventId.OnRewindCompleted, OnCompleteRewind);
+    }
+
+    private void OnDisable()
+    {
+        EventDispatcher.UnregisterListener(EventId.OnRewindCompleted, OnCompleteRewind);
+    }
+    private void FixedUpdate()
+    {
+        if (CoregameManager.Ins.IsReversing) mainSpine.Update(-Time.fixedDeltaTime);
+        else mainSpine.Update(Time.fixedDeltaTime);
+        mainSpine.ApplyAnimation();
     }
 
     /// <summary>
@@ -23,14 +39,16 @@ public abstract class SpineController : MonoBehaviour
         mainSpine.initialFlipX = !InitRight;
         mainSpine.AnimationState.SetEmptyAnimation(0, 0);
 
+        mainSpine.timeScale = timeScale;
+
         // Start animation
         mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);
 
-        // Set speed
-        //currentTrack.TimeScale = timeScale;
+    }
 
-        // Keep global timescale default (to avoid affecting all)
-        mainSpine.timeScale = 1f;
+    public void OnCompleteRewind(object args)
+    {
+        Play(Anim.Idle);
     }
 }
 

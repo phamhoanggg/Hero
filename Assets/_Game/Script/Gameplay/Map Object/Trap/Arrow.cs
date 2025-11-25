@@ -35,7 +35,7 @@ public class Arrow : RewindableObject
         );
     }
 
-    public override void DelegateRewind()
+    public override void DelegateRewind(object args)
     {
         tf.DOPause();
         if (tween == null) Debug.Log("Arrow tween null");

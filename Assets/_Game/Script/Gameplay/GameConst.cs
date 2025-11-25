@@ -7,4 +7,6 @@ public static class GameConst
     public static string TAG_CHEST = "Chest";
     public static string TAG_KEY = "Key";
     public static string TAG_SHIELD = "Shield";
+    public static string TAG_PLAYER = "Player";
+    public static string TAG_ENEMY = "Enemy";
 }
