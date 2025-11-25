@@ -62,7 +62,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
     public void ShakeCamera()
     {
-        GameplayHolder.DOShakeAnchorPos(0.5f, strength: new Vector2(0f, 50));
+        //GameplayHolder.DOShakeAnchorPos(0.5f, strength: new Vector2(0f, 50));
     }
     IEnumerator ReverseCoroutine(float startReverse)
     {

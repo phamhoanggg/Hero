@@ -5,31 +5,48 @@ public class WeaponSpine : SpineController
 {
     [SerializeField] Anim attackAnim;
     [SerializeField] CircleCollider2D attackSensorCol;
-    [SerializeField] int attackRange;
     [SerializeField] IAnimplayer animPlayer;
     [SerializeField] GameObject damageZone;
-    public void SetWeapon(Skin weapon, Anim attackAnim)
+    public void SetWeapon(Skin weapon, Anim attackAnim, int attackRange, IAnimplayer animPlayer)
     {
-        mainSpine.initialSkinName = weapon.ToString();
+        mainSpine.Skeleton.SetSkin(weapon.ToString());
         this.attackAnim = attackAnim;
         attackSensorCol.radius = attackRange;
+        this.animPlayer = animPlayer;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (CoregameManager.Ins.IsReversing) return;
+        if (collision.gameObject == transform.parent.gameObject) return;
+        if (animPlayer == null) return;
+
         if (collision.CompareTag(GameConst.TAG_PLAYER))
         {
-            Attack();
+            StartCoroutine(Attack(false));
+        }
+        else if (collision.CompareTag(GameConst.TAG_ENEMY))
+        {
+            PlayerMove.Ins.Stop();
+            StartCoroutine(Attack(true));
         }
     }
 
-    public void Attack()
+    public IEnumerator Attack(bool isPlayer)
     {
         animPlayer.PlayAnim(attackAnim, false);
         if (attackAnim == Anim.Sword)
         {
             StartCoroutine(EnableDamageZone());
         }
+        else if (attackAnim == Anim.Bow)
+        {
+
+        }
+        float animTime = GetAnimDuration(attackAnim.ToString());
+        yield return new WaitForSeconds(animTime);
+        Play(Anim.Idle, true);
+        if (isPlayer) PlayerMove.Ins.ContinueMove();
     }
 
     IEnumerator EnableDamageZone()

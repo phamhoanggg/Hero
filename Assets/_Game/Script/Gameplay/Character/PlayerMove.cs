@@ -105,7 +105,22 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
             key = other.GetComponent<Key>();
             key.OnCollected();
             hasKey = true;
+        }else if (other.CompareTag(GameConst.TAG_WEAPON))
+        {
+            Weapon wp = other.GetComponent<Weapon>();
+            if (wp != null)
+            {
+                weaponSpine.SetWeapon(wp.weaponSkin, wp.attackAnim, wp.attackRange, this);
+                wp.gameObject.SetActive(false);
+                CoregameManager.Ins.listRewindEvent.Add(new("Equip weapon", () =>
+                {
+                    wp.gameObject.SetActive(true);
+                    weaponSpine.SetWeapon(Skin.Normal, Anim.Bow, 0, null);
+                }));
+                PlayAnim(Anim.Idle, true);
+            }
         }
+
     }
 
     #region REVERSE
@@ -161,6 +176,11 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     {
         spine.Play(anim, loop, timeScale);
         weaponSpine.Play(anim, loop, timeScale);
+    }
+
+    public GameObject GetRoot()
+    {
+        return gameObject;
     }
     #endregion
 }

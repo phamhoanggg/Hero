@@ -191,7 +191,7 @@ MonoBehaviour:
       addNormals: 0
       calculateTangents: 0
       immutableTriangles: 0
-  updateTiming: 1
+  updateTiming: 0
   unscaledTime: 0
 --- !u!114 &705435077458354435
 MonoBehaviour:
@@ -209,7 +209,6 @@ MonoBehaviour:
   InitRight: 1
   attackAnim: 0
   attackSensorCol: {fileID: 4608532905487416604}
-  attackRange: 0
   damageZone: {fileID: 2113225190444707961}
 --- !u!58 &4608532905487416604
 CircleCollider2D:
@@ -241,12 +240,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 25.42}
-  m_Radius: 100
+  m_Radius: 0.0001
 --- !u!1 &3491772882368003115
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +391,7 @@ MonoBehaviour:
       addNormals: 0
       calculateTangents: 0
       immutableTriangles: 0
-  updateTiming: 1
+  updateTiming: 0
   unscaledTime: 0
 --- !u!61 &6037900944895700326
 BoxCollider2D:
@@ -666,7 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78fbbc37764c694483149663fa3436d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootParent: {fileID: 0}
+  rootParent: {fileID: 4501101913198705865}
   rootPosition: {x: 0, y: 0}
   rootEuler: {x: 0, y: 0, z: 0}
   StartTimeStamp_SinceGameStart: 0

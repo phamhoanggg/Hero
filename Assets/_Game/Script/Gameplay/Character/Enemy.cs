@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour, IAnimplayer
     [SerializeField] WeaponSpine weaponSpine;
     [SerializeField] Skin weapon;
     [SerializeField] Anim attackAnim;
+    [SerializeField] int attackRange;
+
 
     private void Awake()
     {
@@ -18,11 +20,16 @@ public class Enemy : MonoBehaviour, IAnimplayer
     }
     public void SetupWeapon()
     {
-        weaponSpine.SetWeapon(weapon, attackAnim);
+        weaponSpine.SetWeapon(weapon, attackAnim, attackRange, this);
     }
     public void PlayAnim(Anim anim, bool loop = true, float timeScale = 1)
     {
         mainSpine.Play(anim, loop, timeScale);
         weaponSpine.Play(anim, loop, timeScale);
+    }
+
+    public GameObject GetRoot()
+    {
+        return gameObject;
     }
 }

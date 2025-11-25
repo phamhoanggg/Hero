@@ -46,6 +46,12 @@ public abstract class SpineController : MonoBehaviour
 
     }
 
+    public float GetAnimDuration(string animName)
+    {
+        Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName);
+        return anim?.Duration ?? 0f;
+    }
+
     public void OnCompleteRewind(object args)
     {
         Play(Anim.Idle);

@@ -540,7 +540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -45.3, y: 29.4}
+  m_AnchoredPosition: {x: 0, y: 29.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &296963680
@@ -587,7 +587,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 30, y: 30}
+  m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
@@ -1636,8 +1636,8 @@ GameObject:
   - component: {fileID: 1257717911}
   - component: {fileID: 1257717910}
   m_Layer: 5
-  m_Name: Arrow
-  m_TagString: Untagged
+  m_Name: Bow
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1764,8 +1764,7 @@ MonoBehaviour:
   EndTimeStamp_SinceGameStart: 0
   weaponSkin: 0
   attackAnim: 0
-  attackRange: 0
-  sensorRange: {fileID: 0}
+  attackRange: 200
 --- !u!1 &1274834250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,6 +1775,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1274834251}
   - component: {fileID: 1274834252}
+  - component: {fileID: 1274834253}
   m_Layer: 5
   m_Name: Enemy Sword
   m_TagString: Untagged
@@ -1820,6 +1820,34 @@ MonoBehaviour:
   weaponSpine: {fileID: 1454395021}
   weapon: 3
   attackAnim: 4
+  attackRange: 70
+--- !u!50 &1274834253
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274834250}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1411240940
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,7 +2075,6 @@ MonoBehaviour:
   InitRight: 0
   attackAnim: 4
   attackSensorCol: {fileID: 1454395022}
-  attackRange: 100
   damageZone: {fileID: 296963678}
 --- !u!58 &1454395022
 CircleCollider2D:
@@ -2407,10 +2434,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4501101913198705865, guid: 1cb53cbaf00219b49869db4839186bf1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8712441992365217667, guid: 1cb53cbaf00219b49869db4839186bf1, type: 3}
-      propertyPath: updateTiming
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9209983275445714665, guid: 1cb53cbaf00219b49869db4839186bf1, type: 3}
@@ -2814,7 +2837,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
