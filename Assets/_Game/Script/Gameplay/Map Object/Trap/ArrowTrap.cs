@@ -8,7 +8,7 @@ public class ArrowTrap : MonoBehaviour
     [SerializeField] float speed;
     public void Fire()
     {
-        arrows.FlyToTarget(targetTf, speed);
+        arrows.FlyToTarget(targetTf.position, speed);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

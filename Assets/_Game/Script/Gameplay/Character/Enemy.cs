@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IAnimplayer
@@ -8,7 +9,7 @@ public class Enemy : MonoBehaviour, IAnimplayer
     [SerializeField] Anim attackAnim;
     [SerializeField] int attackRange;
 
-
+    public bool IsDead {  get; private set; }
     private void Awake()
     {
         SetupWeapon();
@@ -31,5 +32,14 @@ public class Enemy : MonoBehaviour, IAnimplayer
     public GameObject GetRoot()
     {
         return gameObject;
+    }
+
+    public IEnumerator Die() {
+        PlayAnim(Anim.Die, false);
+        IsDead = true;
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => IsDead = false));
+        yield return new WaitForSeconds(mainSpine.GetAnimDuration(Anim.Die));
+        gameObject.SetActive(false);
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => gameObject.SetActive(true)));
     }
 }

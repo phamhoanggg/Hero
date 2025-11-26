@@ -2,6 +2,7 @@
 {
     public enum EventId
     {
+        OnStartMove,
         OnRewind,
         OnRewindCompleted,
     }

@@ -170,7 +170,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zones:
   - {fileID: 44163395010682442}
-  Door: {fileID: 5831057949011045258}
 --- !u!1 &6574042950134568482
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,16 +917,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c490a3a08a37b948842f5c634d5c4f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5831057949011045258 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4427121068708952968, guid: e75c8d7cceb371c4a85858a6d0795627, type: 3}
-  m_PrefabInstance: {fileID: 7898292749022924802}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f077424f8ca729f40a6c656b098f8e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using SharedModules.ED;
 using Spine;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,12 +11,28 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [SerializeField] float scrollSpeed = 1;
     [SerializeField] AnimationCurve snapTweenCurve;
     [SerializeField] CheckPoint[] entryPoints;
-
+    public int ZoneOption => currentOption;
     int currentOption = 0;
     bool isScrolling;
     Vector2 pre_pos;
     int lastDirect = 1;
     float lastMoveTime;
+    Tween snappingTween;
+
+    private void OnEnable()
+    {
+        EventDispatcher.RegisterListener(EventId.OnStartMove, OnStartMove);
+    }
+
+    private void OnDisable()
+    {
+        EventDispatcher.UnregisterListener(EventId.OnStartMove, OnStartMove);
+    }
+
+    public void OnStartMove(object args)
+    {
+        snappingTween?.Complete();
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         isScrolling = true;
@@ -53,7 +70,7 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void SnappingToTab(int tabId)
     {
-        scrollRect.DOAnchorPosY(tabId * -1280, 0.65f).SetEase(snapTweenCurve);
+        snappingTween = scrollRect.DOAnchorPosY(tabId * -1280, 0.65f).SetEase(snapTweenCurve);
     }
 
     public CheckPoint GetFirstCheckpoint()

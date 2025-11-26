@@ -1,3 +1,4 @@
+using SharedModules.ED;
 using UnityEngine;
 
 public class GamePanel : MonoBehaviour

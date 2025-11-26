@@ -8,21 +8,31 @@ public abstract class SpineController : MonoBehaviour
     public SkeletonGraphic mainSpine;
     public bool InitRight = true;
 
-    private TrackEntry currentTrack;
+    public RectTransform RectTf;
     void Awake()
     {
         if (mainSpine == null)
             mainSpine = GetComponent<SkeletonGraphic>();
+        if (RectTf == null)
+            RectTf = GetComponent<RectTransform>();
+        mainSpine.UpdateTiming = UpdateTiming.ManualUpdate;
     }
 
     private void OnEnable()
     {
+        EventDispatcher.RegisterListener(EventId.OnRewind, DelegateStartRewind);
         EventDispatcher.RegisterListener(EventId.OnRewindCompleted, OnCompleteRewind);
     }
 
     private void OnDisable()
     {
         EventDispatcher.UnregisterListener(EventId.OnRewindCompleted, OnCompleteRewind);
+        EventDispatcher.UnregisterListener(EventId.OnRewind, DelegateStartRewind);
+    }
+
+    public virtual void DelegateStartRewind(object args)
+    {
+
     }
     private void FixedUpdate()
     {
@@ -37,23 +47,23 @@ public abstract class SpineController : MonoBehaviour
     public void Play(Anim animName, bool loop = true, float timeScale = 1f)
     {
         mainSpine.initialFlipX = !InitRight;
-        mainSpine.AnimationState.SetEmptyAnimation(0, 0);
-
+        //mainSpine.AnimationState.ClearTracks();
+        mainSpine.AnimationState.SetEmptyAnimation(0, 0f);
         mainSpine.timeScale = timeScale;
 
         // Start animation
         mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);
-
     }
 
-    public float GetAnimDuration(string animName)
+    public float GetAnimDuration(Anim animName)
     {
-        Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName);
+        Spine.Animation anim = mainSpine.Skeleton.Data.FindAnimation(animName.ToString());
         return anim?.Duration ?? 0f;
     }
 
     public void OnCompleteRewind(object args)
     {
+        mainSpine.AnimationState.SetEmptyAnimation(0, 0f);
         Play(Anim.Idle);
     }
 }

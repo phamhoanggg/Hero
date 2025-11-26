@@ -4,6 +4,7 @@ using SharedModules.ED;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
@@ -25,6 +26,8 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     }
     public void Play()
     {
+        EventDispatcher.DispatchEvent(EventId.OnStartMove);
+
         PlayerMove.Ins.StartMove();
         foreach (var zone in currentLevel.zones) zone.gameObject.SetActive(false);
         listRewindEvent = new();
@@ -46,7 +49,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
             //PlayerMove.Ins.spine.Play(Anim.Die, false, - reverseRatio);
             yield return new WaitForSeconds(1f / 3);
         }
-        PlayerMove.Ins.StartReverse();
+        StartCoroutine(PlayerMove.Ins.StartReverse());
         EventDispatcher.DispatchEvent(EventId.OnRewind);
 
 
@@ -85,9 +88,18 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         EventDispatcher.DispatchEvent(EventId.OnRewindCompleted);
         foreach (var zone in currentLevel.zones) zone.gameObject.SetActive(true);
     }
-    public List<CheckPoint> GenerateRouteForPlayer()
+    public List<CheckPoint> GenerateRouteForPlayer(CheckPoint start = null)
     {
         List<CheckPoint> route = new();
+        if (start != null)
+        {
+            route.Add(start);
+            while (route.Last().nextCheckPoint != null)
+            {
+                route.Add(route.Last().nextCheckPoint);
+            }
+        }
+
         foreach (var zone in currentLevel.zones)
         {
             CheckPoint checkPoint = zone.GetFirstCheckpoint();

@@ -12,12 +12,12 @@ public class RewindableObject : MonoBehaviour
 
     private void OnEnable()
     {
-        EventDispatcher.RegisterListener(EventId.OnRewind, DelegateRewind);
+        EventDispatcher.RegisterListener(EventId.OnRewind, DelegateStartRewind);
     }
 
     private void OnDisable()
     {
-        EventDispatcher.UnregisterListener(EventId.OnRewind, DelegateRewind);
+        EventDispatcher.UnregisterListener(EventId.OnRewind, DelegateStartRewind);
 
     }
     public virtual void Start()
@@ -27,7 +27,7 @@ public class RewindableObject : MonoBehaviour
         rootEuler = transform.localEulerAngles;
     }
 
-    public virtual void  DelegateRewind(object args)
+    public virtual void  DelegateStartRewind(object args)
     {
 
     }

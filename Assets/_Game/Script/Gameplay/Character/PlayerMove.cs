@@ -1,5 +1,6 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -10,17 +11,16 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     public WeaponSpine weaponSpine;
     [SerializeField] Transform tf;
     [SerializeField] float speed;
-    [SerializeField] Shield shield;
-
+    [SerializeField] CheckPoint startCheckPoint;
+    public Transform TF => tf;
     public Transform PlayerTf => tf;
     [SerializeField] private Door door;
-    private Key key;
     int checkpointIndex;
     int reverseIndex;
-    bool hasKey;
 
     List<Tween> tweenMoveStack;
     float lastMoveTime;
+    Vector2 defaultPos;
 
     private void Start()
     {
@@ -29,12 +29,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     }
     public void StartMove()
     {
-        route = CoregameManager.Ins.GenerateRouteForPlayer();
+        defaultPos = tf.position;
+        route = CoregameManager.Ins.GenerateRouteForPlayer(startCheckPoint);
         if (route.Count == 0) route.Add(door.checkpoint);
         checkpointIndex = 0;
         tweenMoveStack = new();
-        hasKey = false;
-        key = null;
+        spine.StartMove();
         Move(checkpointIndex);
         PlayAnim(Anim.Run, true);
         Debug.Log("Start move: " + Time.fixedTime);
@@ -43,84 +43,75 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     {
         float dis = Vector2.Distance(route[id].TF.position, tf.position);
         float time = dis / speed;
-        Tween moveTween = tf.DOMove(route[id].TF.position, time).SetEase(Ease.Linear).SetAutoKill(false).SetUpdate(UpdateType.Fixed).OnRewind(ReverseStepCompleted).OnComplete(() =>
-        {
-            if (checkpointIndex + 1 < route.Count)
+        Tween moveTween = TweenUtil.RewindableTween(tf.DOMove(route[id].TF.position, time).OnUpdate(() => lastMoveTime = Time.fixedTime), ReverseStepCompleted, MoveCompleted);
+        int scaleX = (route[id].TF.position.x >= tf.position.x) ? 1 : -1;
+        float prev_scaleX = tf.localScale.x;
+        tf.localScale = new Vector3(scaleX, 1, 1);
+        if (scaleX * prev_scaleX < 0)
+            CoregameManager.Ins.listRewindEvent.Add(new("", () =>
             {
-                checkpointIndex++;
-                Move(checkpointIndex);
-            }
-            else
+                tf.localScale = new Vector3(-scaleX, 1, 1);
+            }));
+
+        tweenMoveStack.Add(moveTween);
+    }
+
+    public void MoveCompleted()
+    {
+        if (checkpointIndex + 1 < route.Count)
+        {
+            checkpointIndex++;
+            Move(checkpointIndex);
+        }
+        else
+        {
+            PlayAnim(Anim.Idle);
+            if (door.Opened)
             {
                 CoregameManager.Ins.Win();
                 gameObject.SetActive(false);
                 door.Close();
             }
-        });
-
-        tweenMoveStack.Add(moveTween);
+        }
     }
-
     public void Stop()
     {
         lastMoveTime = Time.fixedTime;
-        tf.DOPause();
+        Tween tween = tweenMoveStack.Last();
+        tween.Pause();
         PlayAnim(Anim.Idle, true);
+        //CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Run, true, -CoregameManager.Ins.reverseRatio)));
+        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        {
+            tween.PlayBackwards();
+            //tweenMoveStack[reverseIndex].PlayBackwards();
+            PlayAnim(Anim.Run, true, -CoregameManager.Ins.reverseRatio);
+        }));
     }
     public void ContinueMove()
     {
+        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        {
+            tweenMoveStack.Last().Pause();
+            //tweenMoveStack[reverseIndex].Pause();
+            PlayAnim(Anim.Idle, true);
+        }));
         tweenMoveStack.Add(DOVirtual.Float(0, 1, Time.fixedTime - lastMoveTime, (float update) => { }).SetAutoKill(false).OnRewind(ReverseStepCompleted));
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Idle, true, -CoregameManager.Ins.reverseRatio)));
         PlayAnim(Anim.Run, true);
         Move(checkpointIndex);
     }
 
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    public void SetWeapon(Weapon wp)
     {
-        if (CoregameManager.Ins.IsReversing) return;
-
-        if (other.CompareTag(GameConst.TAG_DIE))
+        weaponSpine.SetWeapon(wp.weaponSkin, wp.attackAnim, wp.attackRange, this);
+        wp.gameObject.SetActive(false);
+        CoregameManager.Ins.listRewindEvent.Add(new("Equip weapon", () =>
         {
-            tf.DOPause();
-            VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
-            CoregameManager.Ins.ShakeCamera();
-            PlayAnim(Anim.Die, false);
-            CoregameManager.Ins.StartCoroutine(CoregameManager.Ins.Reverve(true));
-        }
-        else if (other.CompareTag(GameConst.TAG_CHEST))
-        {
-            if (!hasKey) return;
-
-            Stop();
-            key.PlayPutInLockAnim(() =>
-            {
-                if (CoregameManager.Ins.IsReversing) return;
-                Chest chest = other.GetComponent<Chest>();
-                chest.Open();
-                shield.GetShield(chest.ShieldDirection);
-            });
-
-        }else if (other.CompareTag(GameConst.TAG_KEY))
-        {
-            key = other.GetComponent<Key>();
-            key.OnCollected();
-            hasKey = true;
-        }else if (other.CompareTag(GameConst.TAG_WEAPON))
-        {
-            Weapon wp = other.GetComponent<Weapon>();
-            if (wp != null)
-            {
-                weaponSpine.SetWeapon(wp.weaponSkin, wp.attackAnim, wp.attackRange, this);
-                wp.gameObject.SetActive(false);
-                CoregameManager.Ins.listRewindEvent.Add(new("Equip weapon", () =>
-                {
-                    wp.gameObject.SetActive(true);
-                    weaponSpine.SetWeapon(Skin.Normal, Anim.Bow, 0, null);
-                }));
-                PlayAnim(Anim.Idle, true);
-            }
-        }
-
+            wp.gameObject.SetActive(true);
+            weaponSpine.SetWeapon(Skin.Normal, Anim.Bow, 0, null);
+        }));
+        //PlayAnim(Anim.Idle, true);
     }
 
     #region REVERSE
@@ -140,9 +131,14 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
             }
         }
     }
-    public void StartReverse()
+    public IEnumerator StartReverse()
     {
+        float waitTime = Time.fixedTime - lastMoveTime;
         float reverseScale = CoregameManager.Ins.reverseRatio;
+
+        yield return new WaitForSeconds(waitTime / reverseScale);
+
+        door.Close();
         foreach (var tween in tweenMoveStack)
             tween.timeScale = reverseScale;
 
@@ -156,9 +152,11 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
 
     public void ReverseStepCompleted()
     {
+        tweenMoveStack.RemoveAt(reverseIndex);
+
         reverseIndex--;
-        if (reverseIndex >= 0) tweenMoveStack[reverseIndex].PlayBackwards();
-        else
+        if (reverseIndex >= 0 && (Vector2.Distance(tf.position, defaultPos) > 0.1f)) tweenMoveStack[reverseIndex].PlayBackwards();
+        else 
         {
             ReverseCompleted();
         }
@@ -167,9 +165,10 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     public void ReverseCompleted()
     {
         Debug.Log("Completed: " + Time.fixedTime);
+        reverseIndex = -1;
         Glitch.Ins.ResetNoise();
         CoregameManager.Ins.ReverseCompleted();
-        spine.Play(Anim.Idle, true);
+        PlayAnim(Anim.Idle, true);
     }
 
     public void PlayAnim(Anim anim, bool loop = true, float timeScale = 1)

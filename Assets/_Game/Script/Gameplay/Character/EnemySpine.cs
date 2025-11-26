@@ -4,11 +4,23 @@ using UnityEngine;
 public class EnemySpine : SpineController
 {
     [SerializeField] Enemy enemyRoot;
+    [SerializeField] Collider2D col;
+
+    Coroutine dieRoutine;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(GameConst.TAG_DIE))
         {
-            enemyRoot.PlayAnim(Anim.Die);
+            Debug.Log("Enemy Die");
+            col.enabled = false;
+            CoregameManager.Ins.listRewindEvent.Add(new("Disable col enemy", () => col.enabled = true));
+            dieRoutine = StartCoroutine(enemyRoot.Die());
         }
+    }
+
+    public override void DelegateStartRewind(object args)
+    {
+        base.DelegateStartRewind(args);
+        if (dieRoutine != null) StopCoroutine(dieRoutine);
     }
 }

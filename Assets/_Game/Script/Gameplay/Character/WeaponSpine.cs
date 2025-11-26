@@ -1,52 +1,77 @@
 using System.Collections;
+using SharedModules.ED;
 using UnityEngine;
 
 public class WeaponSpine : SpineController
 {
     [SerializeField] Anim attackAnim;
-    [SerializeField] CircleCollider2D attackSensorCol;
+    [SerializeField] BoxCollider2D attackSensorCol;
     [SerializeField] IAnimplayer animPlayer;
     [SerializeField] GameObject damageZone;
+    [Space]
+    [SerializeField] Arrow arrowPrefab;
+    [SerializeField] Transform arrowSpawnPos;
+    [SerializeField] float arrowSpeed;
+
+    Coroutine attackCoroutine;
+
+    public override void DelegateStartRewind(object args)
+    {
+        base.DelegateStartRewind(args);
+        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+    }
     public void SetWeapon(Skin weapon, Anim attackAnim, int attackRange, IAnimplayer animPlayer)
     {
         mainSpine.Skeleton.SetSkin(weapon.ToString());
         this.attackAnim = attackAnim;
-        attackSensorCol.radius = attackRange;
+        attackSensorCol.size = new (attackRange, 50);
+        attackSensorCol.offset = new Vector2(InitRight ? attackRange / 2 : -attackRange / 2, 36);
         this.animPlayer = animPlayer;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (CoregameManager.Ins.IsReversing) return;
-        if (collision.gameObject == transform.parent.gameObject) return;
+        if (collision.transform.parent == transform.parent) return;
         if (animPlayer == null) return;
 
         if (collision.CompareTag(GameConst.TAG_PLAYER))
         {
-            StartCoroutine(Attack(false));
+            attackCoroutine = StartCoroutine(Attack(false, collision.transform));
         }
         else if (collision.CompareTag(GameConst.TAG_ENEMY))
         {
             PlayerMove.Ins.Stop();
-            StartCoroutine(Attack(true));
+            attackCoroutine = StartCoroutine(Attack(true, collision.transform));
         }
     }
 
-    public IEnumerator Attack(bool isPlayer)
+    public IEnumerator Attack(bool isPlayer, Transform target)
     {
+        //attackSensorCol.enabled = false;
+        //CoregameManager.Ins.listRewindEvent.Add(new("Disable sensor", () => attackSensorCol.enabled = true));
         animPlayer.PlayAnim(attackAnim, false);
+        float animTime = GetAnimDuration(attackAnim);
         if (attackAnim == Anim.Sword)
         {
             StartCoroutine(EnableDamageZone());
+            yield return new WaitForSeconds(animTime);
         }
         else if (attackAnim == Anim.Bow)
         {
-
+            yield return new WaitForSeconds(0.45f);
+            //Vector2 spawnPos =  new (arrowSpawnPos.position.x * (InitRight ? 1 : -1), arrowSpawnPos.position.y);
+            Arrow arrow = Instantiate(arrowPrefab, arrowSpawnPos.position, arrowPrefab.transform.rotation, CoregameManager.Ins.currentLevel.transform);
+            arrow.transform.localScale = new Vector3(InitRight ? 1 : -1, 1, 1);
+            Vector2 targetPos = target.position;
+            targetPos.y = arrow.transform.position.y;
+            arrow.FlyToTarget(targetPos, arrowSpeed);
+            yield return new WaitForSeconds(animTime - 0.25f);
         }
-        float animTime = GetAnimDuration(attackAnim.ToString());
-        yield return new WaitForSeconds(animTime);
-        Play(Anim.Idle, true);
+
+        animPlayer.PlayAnim(Anim.Idle);
         if (isPlayer) PlayerMove.Ins.ContinueMove();
+        //attackSensorCol.enabled = true;
     }
 
     IEnumerator EnableDamageZone()
