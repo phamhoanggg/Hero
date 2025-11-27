@@ -746,3 +746,4 @@ MonoBehaviour:
   StartTimeStamp_SinceGameStart: 0
   EndTimeStamp_SinceGameStart: 0
   tf: {fileID: 1819054215471626116}
+  isTrap: 1

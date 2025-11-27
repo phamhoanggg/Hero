@@ -72,7 +72,6 @@ public class Elevator : RewindableObject
         foreach (var tween in tweenMoveStack)
             tween.timeScale = reverseScale;
 
-        Debug.Log("Start Reverse: " + Time.fixedTime);
 
         reverseIndex = tweenMoveStack.Count - 1;
         tweenMoveStack[reverseIndex].PlayBackwards();

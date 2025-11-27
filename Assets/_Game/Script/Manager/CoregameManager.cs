@@ -21,9 +21,12 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     public Level currentLevel;
     private void Start()
     {
-        Application.targetFrameRate = 60;
-        //Play();
+        int levelIndex = DataManager.Ins.Data.LevelIndex;
+
+        currentLevel = listLevel[levelIndex];
+        listLevel[levelIndex].gameObject.SetActive(true);
     }
+
     public void Play()
     {
         EventDispatcher.DispatchEvent(EventId.OnStartMove);
@@ -41,14 +44,16 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         GamePanel.reverseButton.SetActive(false);
 
         if (isDie) yield return new WaitForSeconds(2f / 3);
-        IsReversing = true;
         if (isDie)
         {
             yield return new WaitForEndOfFrame();
 
-            //PlayerMove.Ins.spine.Play(Anim.Die, false, - reverseRatio);
+            PlayerMove.Ins.spine.SetReverse(true);
             yield return new WaitForSeconds(1f / 3);
+
         }
+        IsReversing = true;
+
         StartCoroutine(PlayerMove.Ins.StartReverse());
         EventDispatcher.DispatchEvent(EventId.OnRewind);
 
@@ -58,6 +63,9 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
     public void Win()
     {
+        DataManager.Ins.Data.LevelIndex++;
+        if (DataManager.Ins.Data.LevelIndex >= listLevel.Count) DataManager.Ins.Data.LevelIndex = 0;
+        if (DataManager.Ins.Data.IsShowTut) DataManager.Ins.Data.IsShowTut = false;
         GamePanel.reverseButton.SetActive(false);
         GamePanel.playButton.SetActive(false);
         LoadSceneManager.Ins.LoadScene(SceneId.Game, () => { });

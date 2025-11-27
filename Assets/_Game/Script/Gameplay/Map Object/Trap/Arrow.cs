@@ -10,11 +10,6 @@ public class Arrow : RewindableObject
     Tween tween;
     bool completed;
 
-    private void Update()
-    {
-        if (tween == null) Debug.Log("Null Tween");
-        else Debug.Log("HAS Tween");
-    }
     public void FlyToTarget(Vector2 targetPos, float speed)
     {
         StartTimeStamp_SinceGameStart = Time.time - CoregameManager.Ins.startgameStamp;
@@ -46,13 +41,11 @@ public class Arrow : RewindableObject
         tf.DOPause();
         if (tween == null) Debug.Log("Arrow tween null");
         if (tween == null || completed) return;
-        Debug.Log("Tween play backward");
         tween.timeScale = CoregameManager.Ins.reverseRatio;
         tween.PlayBackwards();
     }
 
     void RewindCompleted() {
-        Debug.Log("Arrow rewind");
         if (!isTrap) gameObject.SetActive(false);
         completed = false;
         tween.Kill();

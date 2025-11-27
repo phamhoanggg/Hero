@@ -37,6 +37,7 @@ public class WeaponSpine : SpineController
 
         if (collision.CompareTag(GameConst.TAG_PLAYER))
         {
+            Debug.Log("AttackPlayer");
             attackCoroutine = StartCoroutine(Attack(false, collision.transform));
         }
         else if (collision.CompareTag(GameConst.TAG_ENEMY))
@@ -51,6 +52,7 @@ public class WeaponSpine : SpineController
         //attackSensorCol.enabled = false;
         //CoregameManager.Ins.listRewindEvent.Add(new("Disable sensor", () => attackSensorCol.enabled = true));
         animPlayer.PlayAnim(attackAnim, false);
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => animPlayer.PlayAnim(Anim.Idle)));
         float animTime = GetAnimDuration(attackAnim);
         if (attackAnim == Anim.Sword)
         {
@@ -59,17 +61,17 @@ public class WeaponSpine : SpineController
         }
         else if (attackAnim == Anim.Bow)
         {
-            yield return new WaitForSeconds(0.45f);
-            //Vector2 spawnPos =  new (arrowSpawnPos.position.x * (InitRight ? 1 : -1), arrowSpawnPos.position.y);
-            Arrow arrow = Instantiate(arrowPrefab, arrowSpawnPos.position, arrowPrefab.transform.rotation, CoregameManager.Ins.currentLevel.transform);
+            yield return new WaitForSeconds(0.26f);
+            Arrow arrow = Instantiate(arrowPrefab, arrowSpawnPos.position, Quaternion.identity, CoregameManager.Ins.currentLevel.transform);
             arrow.transform.localScale = new Vector3(InitRight ? 1 : -1, 1, 1);
             Vector2 targetPos = target.position;
             targetPos.y = arrow.transform.position.y;
             arrow.FlyToTarget(targetPos, arrowSpeed);
-            yield return new WaitForSeconds(animTime - 0.25f);
+            yield return new WaitForSeconds(animTime - 0.26f);
         }
 
-        animPlayer.PlayAnim(Anim.Idle);
+        if (CoregameManager.Ins.IsReversing) yield break;
+        //animPlayer.PlayAnim(Anim.Idle);
         if (isPlayer) PlayerMove.Ins.ContinueMove();
         //attackSensorCol.enabled = true;
     }

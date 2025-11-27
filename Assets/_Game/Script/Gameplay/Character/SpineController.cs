@@ -9,6 +9,8 @@ public abstract class SpineController : MonoBehaviour
     public bool InitRight = true;
 
     public RectTransform RectTf;
+
+    bool isReversing;
     void Awake()
     {
         if (mainSpine == null)
@@ -30,29 +32,27 @@ public abstract class SpineController : MonoBehaviour
         EventDispatcher.UnregisterListener(EventId.OnRewind, DelegateStartRewind);
     }
 
-    public virtual void DelegateStartRewind(object args)
+    private void Update()
     {
-
-    }
-    private void FixedUpdate()
-    {
-        if (CoregameManager.Ins.IsReversing) mainSpine.Update(-Time.fixedDeltaTime);
-        else mainSpine.Update(Time.fixedDeltaTime);
+        if (isReversing) mainSpine.Update(-Time.deltaTime);
+        else mainSpine.Update(Time.deltaTime);
         mainSpine.ApplyAnimation();
     }
 
     /// <summary>
     /// Play a UI Spine animation by name with specified loop & speed.
     /// </summary>
-    public void Play(Anim animName, bool loop = true, float timeScale = 1f)
+    public void Play(Anim animName, bool loop = true)
     {
         mainSpine.initialFlipX = !InitRight;
         //mainSpine.AnimationState.ClearTracks();
         mainSpine.AnimationState.SetEmptyAnimation(0, 0f);
+        isReversing = CoregameManager.Ins.IsReversing;
+        float timeScale = isReversing ? -CoregameManager.Ins.reverseRatio : 1f;
         mainSpine.timeScale = timeScale;
 
         // Start animation
-        mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);
+        mainSpine.AnimationState.AddAnimation(0, animName.ToString(), loop, 0);
     }
 
     public float GetAnimDuration(Anim animName)
@@ -61,9 +61,19 @@ public abstract class SpineController : MonoBehaviour
         return anim?.Duration ?? 0f;
     }
 
+    public void SetReverse(bool isReverse)
+    {
+        isReversing = isReverse;
+    }
+
+    public virtual void DelegateStartRewind(object args)
+    {
+        isReversing = true;
+    }
     public void OnCompleteRewind(object args)
     {
-        mainSpine.AnimationState.SetEmptyAnimation(0, 0f);
+        //mainSpine.AnimationState.SetEmptyAnimation(0, 0f);
+        isReversing = false;
         Play(Anim.Idle);
     }
 }

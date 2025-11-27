@@ -31,6 +31,7 @@ public class Load : MonoBehaviour
         {
             SetProgress(progress);
         });
+        DataManager.Ins.LoadData();
         //AudioManager.Ins.Init();
         VibrationManager.Init();
         // Load scene

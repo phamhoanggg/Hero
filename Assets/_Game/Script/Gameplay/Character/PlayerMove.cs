@@ -37,7 +37,6 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         spine.StartMove();
         Move(checkpointIndex);
         PlayAnim(Anim.Run, true);
-        Debug.Log("Start move: " + Time.fixedTime);
     }
     public void Move(int id)
     {
@@ -85,7 +84,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         {
             tween.PlayBackwards();
             //tweenMoveStack[reverseIndex].PlayBackwards();
-            PlayAnim(Anim.Run, true, -CoregameManager.Ins.reverseRatio);
+            PlayAnim(Anim.Run, true);
         }));
     }
     public void ContinueMove()
@@ -97,7 +96,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
             PlayAnim(Anim.Idle, true);
         }));
         tweenMoveStack.Add(DOVirtual.Float(0, 1, Time.fixedTime - lastMoveTime, (float update) => { }).SetAutoKill(false).OnRewind(ReverseStepCompleted));
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Idle, true, -CoregameManager.Ins.reverseRatio)));
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Idle, true)));
         PlayAnim(Anim.Run, true);
         Move(checkpointIndex);
     }
@@ -142,11 +141,10 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         foreach (var tween in tweenMoveStack)
             tween.timeScale = reverseScale;
 
-        Debug.Log("Start Reverse: " + Time.fixedTime);
 
         reverseIndex = tweenMoveStack.Count - 1;
         Glitch.Ins.Play();
-        PlayAnim(Anim.Run, true, -reverseScale);
+        PlayAnim(Anim.Run, true);
         tweenMoveStack[reverseIndex].PlayBackwards();
     }
 
@@ -164,17 +162,16 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
 
     public void ReverseCompleted()
     {
-        Debug.Log("Completed: " + Time.fixedTime);
         reverseIndex = -1;
         Glitch.Ins.ResetNoise();
         CoregameManager.Ins.ReverseCompleted();
         PlayAnim(Anim.Idle, true);
     }
 
-    public void PlayAnim(Anim anim, bool loop = true, float timeScale = 1)
+    public void PlayAnim(Anim anim, bool loop = true)
     {
-        spine.Play(anim, loop, timeScale);
-        weaponSpine.Play(anim, loop, timeScale);
+        spine.Play(anim, loop);
+        weaponSpine.Play(anim, loop);
     }
 
     public GameObject GetRoot()

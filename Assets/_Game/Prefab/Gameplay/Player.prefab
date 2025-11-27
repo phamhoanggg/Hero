@@ -631,7 +631,7 @@ MonoBehaviour:
   mainSpine: {fileID: 3536012862175774148}
   InitRight: 1
   RectTf: {fileID: 3772845678896158792}
-  shield: {fileID: 0}
+  shield: {fileID: 561232235263772913}
 --- !u!61 &4510456139161691332
 BoxCollider2D:
   m_ObjectHideFlags: 0

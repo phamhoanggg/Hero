@@ -11,7 +11,6 @@ public class EnemySpine : SpineController
     {
         if (collision.CompareTag(GameConst.TAG_DIE))
         {
-            Debug.Log("Enemy Die");
             col.enabled = false;
             CoregameManager.Ins.listRewindEvent.Add(new("Disable col enemy", () => col.enabled = true));
             dieRoutine = StartCoroutine(enemyRoot.Die());

@@ -11,6 +11,7 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [SerializeField] float scrollSpeed = 1;
     [SerializeField] AnimationCurve snapTweenCurve;
     [SerializeField] CheckPoint[] entryPoints;
+    [SerializeField] GameObject handSwipeObj;
     public int ZoneOption => currentOption;
     int currentOption = 0;
     bool isScrolling;
@@ -19,9 +20,14 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     float lastMoveTime;
     Tween snappingTween;
 
+    Data data => DataManager.Ins.Data;
     private void OnEnable()
     {
         EventDispatcher.RegisterListener(EventId.OnStartMove, OnStartMove);
+        if (data.IsShowTut)
+        {
+            handSwipeObj.SetActive(currentOption == 0);
+        }
     }
 
     private void OnDisable()
@@ -38,6 +44,7 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         isScrolling = true;
         pre_pos = eventData.position;
         lastMoveTime = Time.time;
+        if (data.IsShowTut) handSwipeObj.SetActive(false);
     }
 
     private void Update()
@@ -70,7 +77,14 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void SnappingToTab(int tabId)
     {
-        snappingTween = scrollRect.DOAnchorPosY(tabId * -1280, 0.65f).SetEase(snapTweenCurve);
+        snappingTween = scrollRect.DOAnchorPosY(tabId * -1280, 0.65f).SetEase(snapTweenCurve).OnComplete(() =>
+        {
+            if (data.IsShowTut)
+            {
+                handSwipeObj.SetActive(tabId == 0);
+                CoregameManager.Ins.GamePanel.tapTutObj.SetActive(tabId == 1);
+            }
+        });
     }
 
     public CheckPoint GetFirstCheckpoint()

@@ -23,10 +23,10 @@ public class Enemy : MonoBehaviour, IAnimplayer
     {
         weaponSpine.SetWeapon(weapon, attackAnim, attackRange, this);
     }
-    public void PlayAnim(Anim anim, bool loop = true, float timeScale = 1)
+    public void PlayAnim(Anim anim, bool loop = true)
     {
-        mainSpine.Play(anim, loop, timeScale);
-        weaponSpine.Play(anim, loop, timeScale);
+        mainSpine.Play(anim, loop);
+        weaponSpine.Play(anim, loop);
     }
 
     public GameObject GetRoot()

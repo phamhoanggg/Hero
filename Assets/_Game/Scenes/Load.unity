@@ -205,6 +205,8 @@ GameObject:
   m_Component:
   - component: {fileID: 200619738}
   - component: {fileID: 200619737}
+  - component: {fileID: 200619740}
+  - component: {fileID: 200619739}
   m_Layer: 0
   m_Name: Core
   m_TagString: Untagged
@@ -240,6 +242,44 @@ Transform:
   - {fileID: 2039250076}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &200619739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200619736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa4311fe542fc74caec1134c550daa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newDayCountdown: 0
+  data:
+    LevelIndex: 0
+    LevelCheckpoint: 0
+    endData:
+      RestartButton: 0
+      TotalDuration: 0
+      RestartLevel: 0
+      LoseLevel: 0
+      BoosterSpend: 0
+    IsShowTut: 1
+--- !u!114 &200619740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200619736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706b3dd39d163ff4c98095a7ac619318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config:
+    backHomeAfterCompleteLevel: 0
+  IsFirstAppOpen: 0
 --- !u!1 &511638915
 GameObject:
   m_ObjectHideFlags: 0

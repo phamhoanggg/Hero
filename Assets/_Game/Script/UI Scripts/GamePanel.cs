@@ -5,6 +5,7 @@ public class GamePanel : MonoBehaviour
 {
     public GameObject playButton;
     public GameObject reverseButton;
+    public GameObject tapTutObj;
 
     public void ReverseCompleted()
     {
