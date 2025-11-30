@@ -14,14 +14,21 @@ public class WeaponSpine : SpineController
     [SerializeField] float arrowSpeed;
 
     Coroutine attackCoroutine;
+    bool attackAnimDone = true;
 
     public override void DelegateStartRewind(object args)
     {
         base.DelegateStartRewind(args);
         if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        if (!attackAnimDone)
+        {
+            animPlayer.PlayBackward(attackAnim);
+            attackAnimDone = true;
+        }
     }
     public void SetWeapon(Skin weapon, Anim attackAnim, int attackRange, IAnimplayer animPlayer)
     {
+        attackAnimDone = true;
         mainSpine.Skeleton.SetSkin(weapon.ToString());
         this.attackAnim = attackAnim;
         attackSensorCol.size = new (attackRange, 50);
@@ -49,6 +56,7 @@ public class WeaponSpine : SpineController
 
     public IEnumerator Attack(bool isPlayer, Transform target)
     {
+        attackAnimDone = false;
         //attackSensorCol.enabled = false;
         //CoregameManager.Ins.listRewindEvent.Add(new("Disable sensor", () => attackSensorCol.enabled = true));
         animPlayer.PlayAnim(attackAnim, false);
@@ -61,17 +69,20 @@ public class WeaponSpine : SpineController
         }
         else if (attackAnim == Anim.Bow)
         {
-            yield return new WaitForSeconds(0.26f);
+            float waitForArrowSpawnTime = 0.36f;
+            yield return new WaitForSeconds(waitForArrowSpawnTime);
             Arrow arrow = Instantiate(arrowPrefab, arrowSpawnPos.position, Quaternion.identity, CoregameManager.Ins.currentLevel.transform);
             arrow.transform.localScale = new Vector3(InitRight ? 1 : -1, 1, 1);
             Vector2 targetPos = target.position;
             targetPos.y = arrow.transform.position.y;
             arrow.FlyToTarget(targetPos, arrowSpeed);
-            yield return new WaitForSeconds(animTime - 0.26f);
+            yield return new WaitForSeconds(animTime - waitForArrowSpawnTime);
         }
 
+        attackAnimDone = true;
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => animPlayer.PlayBackward(attackAnim)));
         if (CoregameManager.Ins.IsReversing) yield break;
-        //animPlayer.PlayAnim(Anim.Idle);
+        animPlayer.PlayAnim(Anim.Idle);
         if (isPlayer) PlayerMove.Ins.ContinueMove();
         //attackSensorCol.enabled = true;
     }

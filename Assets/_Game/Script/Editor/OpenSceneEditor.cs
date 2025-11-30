@@ -54,17 +54,17 @@ public class OpenSceneEditor
         return OpenSceneValidate("CreateMap");
     }
 
-    //[MenuItem("Open Scene/Test #5", priority = 101)]
-    //public static void OpenTest()
-    //{
-    //    OpenScene("Test");
-    //}
+    [MenuItem("Open Scene/Test #5", priority = 101)]
+    public static void OpenTest()
+    {
+        OpenScene("Test");
+    }
 
-    //[MenuItem("Open Scene/Test #5", true, priority = 101)]
-    //public static bool OpenTestValidate()
-    //{
-    //    return OpenSceneValidate("Test");
-    //}
+    [MenuItem("Open Scene/Test #5", true, priority = 101)]
+    public static bool OpenTestValidate()
+    {
+        return OpenSceneValidate("Test");
+    }
 
     static void OpenScene(string sceneName)
     {

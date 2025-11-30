@@ -198,7 +198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -92.8, y: 36.4}
+  m_AnchoredPosition: {x: -80.2, y: 33.1}
   m_SizeDelta: {x: 53, y: 13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7300675226787146519
@@ -278,7 +278,7 @@ MonoBehaviour:
   damageZone: {fileID: 769462513388608323}
   arrowPrefab: {fileID: 4560645269411544432, guid: 69fe605a564947a4e986ad662f7372d6, type: 3}
   arrowSpawnPos: {fileID: 2627393877450443246}
-  arrowSpeed: 2
+  arrowSpeed: 3
 --- !u!114 &602116616710553618
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -80,7 +80,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 100, y: 100}
+  m_Size: {x: 200, y: 100}
   m_EdgeRadius: 0
 --- !u!1 &3661275697842518075
 GameObject:
@@ -488,7 +488,7 @@ MonoBehaviour:
   weaponSpine: {fileID: 433202733697011681}
   weapon: 3
   attackAnim: 4
-  attackRange: 70
+  attackRange: 100
 --- !u!50 &598218333396182218
 Rigidbody2D:
   serializedVersion: 5

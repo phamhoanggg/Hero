@@ -4,11 +4,12 @@ using DG.Tweening;
 using SharedModules.ED;
 using UnityEngine;
 
-public class Saw : MonoBehaviour
+public class RotateObject : MonoBehaviour
 {
     [SerializeField] List<Route> listRoute = new();
     [SerializeField] RectTransform rectTransform;
     [SerializeField] float speed;
+    [SerializeField] float rotateSpeed = 1;
     int routeIndex;
     int checkpointIndex;
     List<Tween> tweenMoveStack = new();
@@ -16,6 +17,7 @@ public class Saw : MonoBehaviour
     float lastMoveTIme;
     Route route => listRoute[routeIndex];
     bool isReversing;
+    Tween rotateTween;
     private void OnEnable()
     {
         EventDispatcher.RegisterListener(EventId.OnRewind, StartReverse);
@@ -33,7 +35,7 @@ public class Saw : MonoBehaviour
         checkpointIndex = 1;
         isReversing = false;
         tweenMoveStack.Clear();
-        rectTransform.DORotate(Vector3.forward * 360, 10, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
+        rotateTween = rectTransform.DORotate(Vector3.forward * 360, 1 / rotateSpeed, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear).SetAutoKill(false);
         Move(checkpointIndex);
     }
 
@@ -57,6 +59,7 @@ public class Saw : MonoBehaviour
         }
         else
         {
+            rectTransform.DOPause();
             CoregameManager.Ins.listRewindEvent.Add(new("", () => StartReverse()));
         }
     }
@@ -65,7 +68,10 @@ public class Saw : MonoBehaviour
     {
         if (isReversing) return;
         isReversing = true;
-        rectTransform.DOPause();
+        rotateTween.Pause();
+        rotateTween.timeScale = CoregameManager.Ins.reverseRatio;
+        rotateTween.PlayBackwards();
+        //rectTransform.DORotate(Vector3.forward * -360, 1 / rotateSpeed / CoregameManager.Ins.reverseRatio, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
         float reverseScale = CoregameManager.Ins.reverseRatio;
         foreach (var tween in tweenMoveStack)
             tween.timeScale = reverseScale;

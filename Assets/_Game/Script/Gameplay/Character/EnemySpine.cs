@@ -20,6 +20,11 @@ public class EnemySpine : SpineController
     public override void DelegateStartRewind(object args)
     {
         base.DelegateStartRewind(args);
-        if (dieRoutine != null) StopCoroutine(dieRoutine);
+        if (dieRoutine != null)
+        {
+            StopCoroutine(dieRoutine);
+            enemyRoot.PlayBackward(Anim.Die);
+            enemyRoot.PlayAnim(Anim.Idle, true, GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
+        }
     }
 }

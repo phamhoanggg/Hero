@@ -69,7 +69,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
             {
                 CoregameManager.Ins.Win();
                 gameObject.SetActive(false);
-                door.Close();
+                door.Invoke(nameof(door.Close), 0.15f);
             }
         }
     }
@@ -82,8 +82,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         //CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Run, true, -CoregameManager.Ins.reverseRatio)));
         CoregameManager.Ins.listRewindEvent.Add(new("", () =>
         {
-            tween.PlayBackwards();
-            //tweenMoveStack[reverseIndex].PlayBackwards();
+            tweenMoveStack[reverseIndex].PlayBackwards();
             PlayAnim(Anim.Run, true);
         }));
     }
@@ -91,12 +90,10 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     {
         CoregameManager.Ins.listRewindEvent.Add(new("", () =>
         {
-            tweenMoveStack.Last().Pause();
-            //tweenMoveStack[reverseIndex].Pause();
+            tweenMoveStack[reverseIndex].Pause();
             PlayAnim(Anim.Idle, true);
         }));
-        tweenMoveStack.Add(DOVirtual.Float(0, 1, Time.fixedTime - lastMoveTime, (float update) => { }).SetAutoKill(false).OnRewind(ReverseStepCompleted));
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Idle, true)));
+        //tweenMoveStack.Add(DOVirtual.Float(0, 1, Time.fixedTime - lastMoveTime, (float update) => { }).SetAutoKill(false).OnRewind(ReverseStepCompleted));
         PlayAnim(Anim.Run, true);
         Move(checkpointIndex);
     }
@@ -115,21 +112,21 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
 
     #region REVERSE
     
-    private void FixedUpdate()
-    {
-        if (CoregameManager.Ins.IsReversing)
-        {
-            foreach (var ev in CoregameManager.Ins.listRewindEvent)
-            {
-                if (Vector2.Distance(ev.playerPosition, PlayerTf.position) < 0.25f)
-                {
-                    ev.reverseAction?.Invoke();
-                    CoregameManager.Ins.listRewindEvent.Remove(ev);
-                    return;
-                }
-            }
-        }
-    }
+    //private void FixedUpdate()
+    //{
+    //    if (CoregameManager.Ins.IsReversing)
+    //    {
+    //        foreach (var ev in CoregameManager.Ins.listRewindEvent)
+    //        {
+    //            if (Vector2.Distance(ev.playerPosition, PlayerTf.position) < 0.25f)
+    //            {
+    //                ev.reverseAction?.Invoke();
+    //                CoregameManager.Ins.listRewindEvent.Remove(ev);
+    //                return;
+    //            }
+    //        }
+    //    }
+    //}
     public IEnumerator StartReverse()
     {
         float waitTime = Time.fixedTime - lastMoveTime;
@@ -168,10 +165,16 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         PlayAnim(Anim.Idle, true);
     }
 
-    public void PlayAnim(Anim anim, bool loop = true)
+    public void PlayAnim(Anim anim, bool loop = true, float delayTime = 0)
     {
-        spine.Play(anim, loop);
-        weaponSpine.Play(anim, loop);
+        StartCoroutine(spine.Play(anim, loop, delayTime));
+        StartCoroutine(weaponSpine.Play(anim, loop, delayTime));
+    }
+
+    public void PlayBackward(Anim anim)
+    {
+        spine.PlayBackward(anim);
+        weaponSpine.PlayBackward(anim);
     }
 
     public GameObject GetRoot()

@@ -9,17 +9,31 @@ public class Elevator : RewindableObject
     [SerializeField] RectTransform rectTransform;
     [SerializeField] float speed;
 
+    [SerializeField] GameObject idle;
+    [SerializeField] GameObject move;
     bool moveCompleted;
     int checkpointIndex;
     List<Tween> tweenMoveStack = new();
     int reverseIndex;
     bool isReversing;
+    public override void Start()
+    {
+        base.Start();
+        SetState(true);
+    }
     public void AddPlayer()
     {
         PlayerMove.Ins.Stop();
         PlayerMove.Ins.TF.SetParent(rectTransform, true);
-        //CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayerMove.Ins.TF.SetParent(CoregameManager.Ins.currentLevel.transform, true)));
         StartMove();
+        SetState(false);
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => SetState(true)));
+    }
+
+    void SetState(bool isIdle)
+    {
+        idle.SetActive(isIdle);
+        move.SetActive(!isIdle);
     }
 
     public void StartMove(object arg = null)
@@ -51,6 +65,9 @@ public class Elevator : RewindableObject
         else
         {
             moveCompleted = true;
+            SetState(true);
+            CoregameManager.Ins.listRewindEvent.Add(new("", () => SetState(false)));
+
             PlayerMove.Ins.TF.SetParent(CoregameManager.Ins.currentLevel.transform, true);
             PlayerMove.Ins.ContinueMove();
             CoregameManager.Ins.listRewindEvent.Add(new("", () =>

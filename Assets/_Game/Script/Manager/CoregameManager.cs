@@ -10,7 +10,7 @@ using UnityEngine;
 public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 {
     public GamePanel GamePanel;
-    public RectTransform GameplayHolder;
+    public Transform shakeTf;
     public readonly float BASE_CAMERA_SIZE = 6.4f;
     public float reverseRatio;
     public List<EventCheckpoint> listRewindEvent;
@@ -43,22 +43,26 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         if (IsReversing) yield break;
         GamePanel.reverseButton.SetActive(false);
 
-        if (isDie) yield return new WaitForSeconds(2f / 3);
+        float dieAnimTime = PlayerMove.Ins.spine.GetAnimDuration(Anim.Die);
+        if (isDie) yield return new WaitForSeconds(dieAnimTime);
+        IsReversing = true;
         if (isDie)
         {
             yield return new WaitForEndOfFrame();
 
-            PlayerMove.Ins.spine.SetReverse(true);
-            yield return new WaitForSeconds(1f / 3);
-
+            PlayerMove.Ins.spine.PlayBackward(Anim.Die);
+            StartCoroutine(PlayerMove.Ins.StartReverse());
+            StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
+            EventDispatcher.DispatchEvent(EventId.OnRewind);
+            yield return new WaitForSeconds(dieAnimTime / reverseRatio);
+            PlayerMove.Ins.spine.PlayBackward(Anim.Run);
         }
-        IsReversing = true;
-
-        StartCoroutine(PlayerMove.Ins.StartReverse());
-        EventDispatcher.DispatchEvent(EventId.OnRewind);
-
-
-        //StartCoroutine(ReverseCoroutine(startReverseTimestamp));
+        else
+        {
+            StartCoroutine(PlayerMove.Ins.StartReverse());
+            StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
+            EventDispatcher.DispatchEvent(EventId.OnRewind);
+        }
     }
 
     public void Win()
@@ -73,7 +77,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
     public void ShakeCamera()
     {
-        //GameplayHolder.DOShakeAnchorPos(0.5f, strength: new Vector2(0f, 50));
+        //shakeTf.DOShakePosition(0.5f, strength: new Vector2(0f, 50));
     }
     IEnumerator ReverseCoroutine(float startReverse)
     {
