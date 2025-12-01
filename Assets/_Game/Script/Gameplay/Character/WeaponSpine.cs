@@ -83,6 +83,7 @@ public class WeaponSpine : SpineController
         CoregameManager.Ins.listRewindEvent.Add(new("", () => animPlayer.PlayBackward(attackAnim)));
         if (CoregameManager.Ins.IsReversing) yield break;
         animPlayer.PlayAnim(Anim.Idle);
+        SetWeapon(Skin.Normal, Anim.Idle, 0, animPlayer);
         if (isPlayer) PlayerMove.Ins.ContinueMove();
         //attackSensorCol.enabled = true;
     }
