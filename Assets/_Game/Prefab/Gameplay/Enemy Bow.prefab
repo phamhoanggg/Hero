@@ -55,7 +55,7 @@ MonoBehaviour:
   weaponSpine: {fileID: 5249487231004775175}
   weapon: 0
   attackAnim: 0
-  attackRange: 250
+  attackRange: 300
 --- !u!50 &6001709384839508447
 Rigidbody2D:
   serializedVersion: 5
@@ -273,12 +273,11 @@ MonoBehaviour:
   mainSpine: {fileID: 602116616710553618}
   InitRight: 0
   RectTf: {fileID: 5168816480974025244}
-  attackAnim: 0
   attackSensorCol: {fileID: 7772173026535738727}
   damageZone: {fileID: 769462513388608323}
   arrowPrefab: {fileID: 4560645269411544432, guid: 69fe605a564947a4e986ad662f7372d6, type: 3}
   arrowSpawnPos: {fileID: 2627393877450443246}
-  arrowSpeed: 3
+  arrowSpeed: 10
 --- !u!114 &602116616710553618
 MonoBehaviour:
   m_ObjectHideFlags: 0

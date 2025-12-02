@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class WeaponSpine : SpineController
 {
-    [SerializeField] Anim attackAnim;
+    Anim _attackAnim;
+    IAnimplayer _animPlayer;
+    Skin _weaponSkin;
+    int _attackRange;
+
     [SerializeField] BoxCollider2D attackSensorCol;
-    [SerializeField] IAnimplayer animPlayer;
     [SerializeField] GameObject damageZone;
     [Space]
     [SerializeField] Arrow arrowPrefab;
@@ -15,32 +18,34 @@ public class WeaponSpine : SpineController
 
     Coroutine attackCoroutine;
     bool attackAnimDone = true;
-
     public override void DelegateStartRewind(object args)
     {
         base.DelegateStartRewind(args);
         if (attackCoroutine != null) StopCoroutine(attackCoroutine);
         if (!attackAnimDone)
         {
-            animPlayer.PlayBackward(attackAnim);
+            _animPlayer.PlayBackward(_attackAnim);
             attackAnimDone = true;
         }
     }
     public void SetWeapon(Skin weapon, Anim attackAnim, int attackRange, IAnimplayer animPlayer)
     {
+        this._attackAnim = attackAnim;
+        this._attackRange = attackRange;
+        this._animPlayer = animPlayer;
+        _weaponSkin = weapon;
+
         attackAnimDone = true;
         mainSpine.Skeleton.SetSkin(weapon.ToString());
-        this.attackAnim = attackAnim;
         attackSensorCol.size = new (attackRange, 50);
         attackSensorCol.offset = new Vector2(InitRight ? attackRange / 2 : -attackRange / 2, 36);
-        this.animPlayer = animPlayer;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (CoregameManager.Ins.IsReversing) return;
         if (collision.transform.parent == transform.parent) return;
-        if (animPlayer == null) return;
+        if (_animPlayer == null) return;
 
         if (collision.CompareTag(GameConst.TAG_PLAYER))
         {
@@ -59,15 +64,15 @@ public class WeaponSpine : SpineController
         attackAnimDone = false;
         //attackSensorCol.enabled = false;
         //CoregameManager.Ins.listRewindEvent.Add(new("Disable sensor", () => attackSensorCol.enabled = true));
-        animPlayer.PlayAnim(attackAnim, false);
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => animPlayer.PlayAnim(Anim.Idle)));
-        float animTime = GetAnimDuration(attackAnim);
-        if (attackAnim == Anim.Sword)
+        _animPlayer.PlayAnim(_attackAnim, false);
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => _animPlayer.PlayAnim(Anim.Idle)));
+        float animTime = GetAnimDuration(_attackAnim);
+        if (_attackAnim == Anim.Sword)
         {
             StartCoroutine(EnableDamageZone());
             yield return new WaitForSeconds(animTime);
         }
-        else if (attackAnim == Anim.Bow)
+        else if (_attackAnim == Anim.Bow)
         {
             float waitForArrowSpawnTime = 0.36f;
             yield return new WaitForSeconds(waitForArrowSpawnTime);
@@ -80,10 +85,13 @@ public class WeaponSpine : SpineController
         }
 
         attackAnimDone = true;
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => animPlayer.PlayBackward(attackAnim)));
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => _animPlayer.PlayBackward(_attackAnim)));
         if (CoregameManager.Ins.IsReversing) yield break;
-        animPlayer.PlayAnim(Anim.Idle);
-        SetWeapon(Skin.Normal, Anim.Idle, 0, animPlayer);
+
+        mainSpine.Skeleton.SetSkin(Skin.Normal.ToString());
+        attackSensorCol.size = Vector2.zero;
+        _animPlayer.PlayAnim(Anim.Idle);
+        CoregameManager.Ins.listRewindEvent.Add(new("", () => SetWeapon(_weaponSkin, _attackAnim, _attackRange, _animPlayer)));
         if (isPlayer) PlayerMove.Ins.ContinueMove();
         //attackSensorCol.enabled = true;
     }

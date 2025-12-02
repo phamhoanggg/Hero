@@ -209,12 +209,11 @@ MonoBehaviour:
   mainSpine: {fileID: 9219712210682230020}
   InitRight: 1
   RectTf: {fileID: 6557832185462299084}
-  attackAnim: 0
   attackSensorCol: {fileID: 180583673613511379}
   damageZone: {fileID: 2113225190444707961}
   arrowPrefab: {fileID: 4560645269411544432, guid: 69fe605a564947a4e986ad662f7372d6, type: 3}
   arrowSpawnPos: {fileID: 1951421230005829643}
-  arrowSpeed: 5
+  arrowSpeed: 10
 --- !u!61 &180583673613511379
 BoxCollider2D:
   m_ObjectHideFlags: 0

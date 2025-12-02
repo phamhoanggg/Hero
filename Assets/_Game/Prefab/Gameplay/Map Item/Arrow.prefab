@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrows: {fileID: 6188877746966076603}
   targetTf: {fileID: 5543914274586177883}
-  speed: 4.25
+  speed: 6
 --- !u!61 &3239211099408973944
 BoxCollider2D:
   m_ObjectHideFlags: 0

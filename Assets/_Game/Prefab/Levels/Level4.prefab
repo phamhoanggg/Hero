@@ -931,7 +931,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7584562520570359800, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 449.9
+      value: 449.90002
       objectReference: {fileID: 0}
     - target: {fileID: 7584562520570359800, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1285,7 +1285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7584562520570359800, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 450.6
+      value: 450.59998
       objectReference: {fileID: 0}
     - target: {fileID: 7584562520570359800, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1330,7 +1330,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 395359876815232699, guid: e827b4dd40191c341a1d7ee4a88b5c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1280
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4353076560343608210, guid: e827b4dd40191c341a1d7ee4a88b5c9e, type: 3}
       propertyPath: optionAmount
@@ -2026,11 +2026,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8646832113427335022, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
+      propertyPath: nextCheckPoint
+      value: 
+      objectReference: {fileID: 2790587136617077504}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
+--- !u!114 &5420624203558409273 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8646832113427335022, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
+  m_PrefabInstance: {fileID: 4379287746858783575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f077424f8ca729f40a6c656b098f8e33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6163066609862409391 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7584562520570359800, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
@@ -2248,7 +2263,7 @@ PrefabInstance:
     - target: {fileID: 8646832113427335022, guid: 0107c624a26711d438db5f3c602bdce8, type: 3}
       propertyPath: nextCheckPoint
       value: 
-      objectReference: {fileID: 2790587136617077504}
+      objectReference: {fileID: 5420624203558409273}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

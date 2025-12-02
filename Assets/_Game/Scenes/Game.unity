@@ -3279,10 +3279,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1780420399}
     m_Modifications:
-    - target: {fileID: 1602128095386895617, guid: 8d4c9b63e260233438dcbdddd4a366ee, type: 3}
-      propertyPath: 'entryPoints.Array.data[2]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1672586942387769378, guid: 8d4c9b63e260233438dcbdddd4a366ee, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3369,10 +3365,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4586809068788097898, guid: 8d4c9b63e260233438dcbdddd4a366ee, type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9087739706237386067, guid: 8d4c9b63e260233438dcbdddd4a366ee, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
