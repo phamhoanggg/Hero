@@ -78,8 +78,10 @@ public class WeaponSpine : SpineController
             yield return new WaitForSeconds(waitForArrowSpawnTime);
             Arrow arrow = Instantiate(arrowPrefab, arrowSpawnPos.position, Quaternion.identity, CoregameManager.Ins.currentLevel.transform);
             arrow.transform.localScale = new Vector3(InitRight ? 1 : -1, 1, 1);
-            Vector2 targetPos = target.position;
-            targetPos.y = arrow.transform.position.y;
+            Vector3 direct = target.position - arrow.transform.position;
+            direct = new Vector2(direct.x, 0).normalized;
+            Vector2 targetPos = arrow.transform.position + direct * 1000;
+
             arrow.FlyToTarget(targetPos, arrowSpeed);
             yield return new WaitForSeconds(animTime - waitForArrowSpawnTime);
         }

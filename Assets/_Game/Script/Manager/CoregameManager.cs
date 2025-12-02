@@ -77,7 +77,8 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
     public void ShakeCamera()
     {
-        //shakeTf.DOShakePosition(0.5f, strength: new Vector2(0f, 50));
+        Vector3 originPos = shakeTf.position;
+        //shakeTf.DOShakePosition(0.25f, strength: new Vector2(0f, 50)).OnComplete(() => shakeTf.position = originPos);
     }
     IEnumerator ReverseCoroutine(float startReverse)
     {

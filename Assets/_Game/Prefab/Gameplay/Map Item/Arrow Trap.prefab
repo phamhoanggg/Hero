@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 7399631344715989205}
   - component: {fileID: 3239211099408973944}
   m_Layer: 5
-  m_Name: Arrow
+  m_Name: Arrow Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrows: {fileID: 6188877746966076603}
   targetTf: {fileID: 5543914274586177883}
-  speed: 6
+  speed: 4.25
 --- !u!61 &3239211099408973944
 BoxCollider2D:
   m_ObjectHideFlags: 0
