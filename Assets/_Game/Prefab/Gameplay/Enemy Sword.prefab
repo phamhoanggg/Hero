@@ -145,7 +145,6 @@ MonoBehaviour:
   mainSpine: {fileID: 7394059677965776964}
   InitRight: 0
   RectTf: {fileID: 0}
-  attackAnim: 4
   attackSensorCol: {fileID: 4862508402251676100}
   damageZone: {fileID: 420499424435736155}
   arrowPrefab: {fileID: 0}
@@ -201,7 +200,7 @@ MonoBehaviour:
   disableMeshAssignmentOnOverride: 1
   physicsPositionInheritanceFactor: {x: 1, y: 1}
   physicsRotationInheritanceFactor: 1
-  physicsMovementRelativeTo: {fileID: 0}
+  physicsMovementRelativeTo: {fileID: 4668217193282004456}
   meshGenerator:
     settings:
       useClipping: 1
@@ -357,7 +356,7 @@ MonoBehaviour:
   disableMeshAssignmentOnOverride: 1
   physicsPositionInheritanceFactor: {x: 1, y: 1}
   physicsRotationInheritanceFactor: 1
-  physicsMovementRelativeTo: {fileID: 0}
+  physicsMovementRelativeTo: {fileID: 4668217193282004456}
   meshGenerator:
     settings:
       useClipping: 1

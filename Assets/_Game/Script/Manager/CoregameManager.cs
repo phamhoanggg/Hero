@@ -125,6 +125,32 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
         return route;
     }
+
+    public List<InvertCheckPoint> GenerateInvertRouteForRotateObject(InvertCheckPoint start = null)
+    {
+        List<InvertCheckPoint> route = new();
+        if (start != null)
+        {
+            route.Add(start);
+            while (route.Last().next != null)
+            {
+                route.Add(route.Last().next);
+            }
+        }
+
+        for (int i = currentLevel.zones.Length - 1; i >= 0; i--)
+        {
+            var zone = currentLevel.zones[i];
+            InvertCheckPoint first = zone.GetFirstInvertCheckpoint();
+            while (first != null)
+            {
+                route.Add(first);
+                first = first.next;
+            }
+        }
+
+        return route;
+    }
 }
 
 [Serializable]

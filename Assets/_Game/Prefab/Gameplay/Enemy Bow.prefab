@@ -328,7 +328,7 @@ MonoBehaviour:
   disableMeshAssignmentOnOverride: 1
   physicsPositionInheritanceFactor: {x: 1, y: 1}
   physicsRotationInheritanceFactor: 1
-  physicsMovementRelativeTo: {fileID: 0}
+  physicsMovementRelativeTo: {fileID: 1579420776143291384}
   meshGenerator:
     settings:
       useClipping: 1
@@ -484,7 +484,7 @@ MonoBehaviour:
   disableMeshAssignmentOnOverride: 1
   physicsPositionInheritanceFactor: {x: 1, y: 1}
   physicsRotationInheritanceFactor: 1
-  physicsMovementRelativeTo: {fileID: 0}
+  physicsMovementRelativeTo: {fileID: 1579420776143291384}
   meshGenerator:
     settings:
       useClipping: 1

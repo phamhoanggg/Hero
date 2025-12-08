@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour, IAnimplayer
         return gameObject;
     }
 
-    public IEnumerator Die() {
+    public virtual IEnumerator Die() {
         PlayAnim(Anim.Die, false);
         IsDead = true;
 

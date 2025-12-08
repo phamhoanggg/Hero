@@ -66,6 +66,7 @@ MonoBehaviour:
   EndTimeStamp_SinceGameStart: 0
   m_RectTransform: {fileID: 1153681983520749402}
   animTime: 0
+  col2D: {fileID: 8320028593845586350}
 --- !u!114 &1826817521502585522
 MonoBehaviour:
   m_ObjectHideFlags: 0

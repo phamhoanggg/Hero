@@ -11,6 +11,7 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [SerializeField] float scrollSpeed = 1;
     [SerializeField] AnimationCurve snapTweenCurve;
     [SerializeField] CheckPoint[] entryPoints;
+    [SerializeField] InvertCheckPoint[] invertPoints;
     [SerializeField] GameObject handSwipeObj;
     public int ZoneOption => currentOption;
     int currentOption = 0;
@@ -92,5 +93,12 @@ public class ZoneSwitcher : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (entryPoints.Length <= currentOption) return null;
 
         return entryPoints[currentOption];
+    }
+
+    public InvertCheckPoint GetFirstInvertCheckpoint()
+    {
+        if (invertPoints.Length <= currentOption) return null;
+
+        return invertPoints[currentOption];
     }
 }
