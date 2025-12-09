@@ -45,11 +45,11 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
         float dieAnimTime = PlayerMove.Ins.spine.GetAnimDuration(Anim.Die);
         if (isDie) yield return new WaitForSeconds(dieAnimTime);
-        IsReversing = true;
         if (isDie)
         {
+            yield return new WaitForSeconds(0.5f);
+            IsReversing = true;
             yield return new WaitForEndOfFrame();
-
             PlayerMove.Ins.spine.PlayBackward(Anim.Die);
             StartCoroutine(PlayerMove.Ins.StartReverse());
             StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
@@ -59,6 +59,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         }
         else
         {
+            IsReversing = true;
             StartCoroutine(PlayerMove.Ins.StartReverse());
             StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
             EventDispatcher.DispatchEvent(EventId.OnRewind);

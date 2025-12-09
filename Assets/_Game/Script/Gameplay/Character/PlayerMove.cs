@@ -111,22 +111,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     }
 
     #region REVERSE
-    
-    //private void FixedUpdate()
-    //{
-    //    if (CoregameManager.Ins.IsReversing)
-    //    {
-    //        foreach (var ev in CoregameManager.Ins.listRewindEvent)
-    //        {
-    //            if (Vector2.Distance(ev.playerPosition, PlayerTf.position) < 0.25f)
-    //            {
-    //                ev.reverseAction?.Invoke();
-    //                CoregameManager.Ins.listRewindEvent.Remove(ev);
-    //                return;
-    //            }
-    //        }
-    //    }
-    //}
+   
     public IEnumerator StartReverse()
     {
         float waitTime = Time.fixedTime - lastMoveTime;
@@ -169,6 +154,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     {
         StartCoroutine(spine.Play(anim, loop, delayTime));
         StartCoroutine(weaponSpine.Play(anim, loop, delayTime));
+        if (anim == Anim.Die) weaponSpine.OnParentDie();
     }
 
     public void PlayBackward(Anim anim)

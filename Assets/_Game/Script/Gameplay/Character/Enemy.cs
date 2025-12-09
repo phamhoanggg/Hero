@@ -41,6 +41,8 @@ public class Enemy : MonoBehaviour, IAnimplayer
     }
 
     public virtual IEnumerator Die() {
+        weaponSpine.OnParentDie();
+
         PlayAnim(Anim.Die, false);
         IsDead = true;
 

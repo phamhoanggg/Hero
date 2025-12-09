@@ -21,11 +21,24 @@ public class WeaponSpine : SpineController
     public override void DelegateStartRewind(object args)
     {
         base.DelegateStartRewind(args);
-        if (attackCoroutine != null) StopCoroutine(attackCoroutine);
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
         if (!attackAnimDone)
         {
             _animPlayer.PlayBackward(_attackAnim);
             attackAnimDone = true;
+        }
+    }
+
+    public void OnParentDie()
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
         }
     }
     public void SetWeapon(Skin weapon, Anim attackAnim, int attackRange, IAnimplayer animPlayer)

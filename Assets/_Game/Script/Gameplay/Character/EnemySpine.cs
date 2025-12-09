@@ -25,6 +25,7 @@ public class EnemySpine : SpineController
             StopCoroutine(dieRoutine);
             enemyRoot.PlayBackward(Anim.Die);
             enemyRoot.PlayAnim(Anim.Idle, true, GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
+            dieRoutine = null;
         }
     }
 }
