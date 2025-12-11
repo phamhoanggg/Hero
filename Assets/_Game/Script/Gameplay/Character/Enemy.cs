@@ -29,10 +29,10 @@ public class Enemy : MonoBehaviour, IAnimplayer
         StartCoroutine(weaponSpine.Play(anim, loop, delayTime));
     }
 
-    public void PlayBackward(Anim anim)
+    public void PlayBackward(Anim anim, float startTrackTime = 1)
     {
-        mainSpine.PlayBackward(anim);
-        weaponSpine.PlayBackward(anim);
+        mainSpine.PlayBackward(anim, startTrackTime);
+        weaponSpine.PlayBackward(anim, startTrackTime);
     }
 
     public GameObject GetRoot()
@@ -46,15 +46,15 @@ public class Enemy : MonoBehaviour, IAnimplayer
         PlayAnim(Anim.Die, false);
         IsDead = true;
 
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => IsDead = false));
+        CoregameManager.Ins.listRewindEvent.Add(new("Enemy reset Dead", () => IsDead = false));
         yield return new WaitForSeconds(mainSpine.GetAnimDuration(Anim.Die));
-        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        CoregameManager.Ins.listRewindEvent.Add(new("Enemy play Die backward", () =>
         {
             PlayBackward(Anim.Die);
-            PlayAnim(Anim.Idle, true, mainSpine.GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
+            //PlayAnim(Anim.Idle, true, mainSpine.GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
         }));
 
         gameObject.SetActive(false);
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => gameObject.SetActive(true)));
+        CoregameManager.Ins.listRewindEvent.Add(new("Enemy set active true", () => gameObject.SetActive(true)));
     }
 }

@@ -22,7 +22,7 @@ public class PlayerSpine : SpineController
             VibrationManager.Vibrate(MoreMountains.NiceVibrations.HapticTypes.MediumImpact);
             CoregameManager.Ins.ShakeCamera();
             PlayerMove.Ins.PlayAnim(Anim.Die, false);
-            CoregameManager.Ins.StartCoroutine(CoregameManager.Ins.Reverve(true));
+            CoregameManager.Ins.StartCoroutine(CoregameManager.Ins.Reverse(true));
         }
         else if (other.CompareTag(GameConst.TAG_CHEST))
         {

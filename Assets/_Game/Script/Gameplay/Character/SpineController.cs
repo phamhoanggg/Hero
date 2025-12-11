@@ -48,7 +48,7 @@ public abstract class SpineController : MonoBehaviour
     }
 
     [Button]
-    public void PlayBackward(Anim animName)
+    public void PlayBackward(Anim animName, float startTrackTime = 1)
     {
         mainSpine.initialFlipX = !InitRight;
         float timeScale = -CoregameManager.Ins.reverseRatio;
@@ -56,7 +56,7 @@ public abstract class SpineController : MonoBehaviour
         // Start animation
         var trackEntry = mainSpine.AnimationState.SetAnimation(0, animName.ToString(), false);
         trackEntry.TimeScale = timeScale;
-        trackEntry.TrackTime = trackEntry.Animation.Duration;
+        trackEntry.TrackTime = trackEntry.Animation.Duration * startTrackTime;
     }
     public float GetAnimDuration(Anim animName)
     {

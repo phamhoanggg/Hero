@@ -9,8 +9,11 @@ public class EnemySpine : SpineController
     Coroutine dieRoutine;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (CoregameManager.Ins.IsReversing) return;
+
         if (collision.CompareTag(GameConst.TAG_DIE))
         {
+            Debug.LogWarning("Enemy trigger die");
             col.enabled = false;
             CoregameManager.Ins.listRewindEvent.Add(new("Disable col enemy", () => col.enabled = true));
             dieRoutine = StartCoroutine(enemyRoot.Die());
@@ -24,7 +27,7 @@ public class EnemySpine : SpineController
         {
             StopCoroutine(dieRoutine);
             enemyRoot.PlayBackward(Anim.Die);
-            enemyRoot.PlayAnim(Anim.Idle, true, GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
+            //enemyRoot.PlayAnim(Anim.Idle, true, GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
             dieRoutine = null;
         }
     }

@@ -28,7 +28,7 @@ public class Arrow : RewindableObject
         completed = true;
         EndTimeStamp_SinceGameStart = Time.time - CoregameManager.Ins.startgameStamp;
         gameObject.SetActive(isTrap);
-        CoregameManager.Ins.listRewindEvent.Add(new("arrow reach floor", () =>
+        CoregameManager.Ins.listRewindEvent.Add(new("arrow reach target", () =>
         {
             tf.DOPause();
             gameObject.SetActive(true);

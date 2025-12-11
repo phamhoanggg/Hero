@@ -27,7 +27,7 @@ public class Elevator : RewindableObject
         PlayerMove.Ins.TF.SetParent(rectTransform, true);
         StartMove();
         SetState(false);
-        CoregameManager.Ins.listRewindEvent.Add(new("", () => SetState(true)));
+        CoregameManager.Ins.listRewindEvent.Add(new("Elevator change state", () => SetState(true)));
     }
 
     void SetState(bool isIdle)
@@ -66,11 +66,11 @@ public class Elevator : RewindableObject
         {
             moveCompleted = true;
             SetState(true);
-            CoregameManager.Ins.listRewindEvent.Add(new("", () => SetState(false)));
+            CoregameManager.Ins.listRewindEvent.Add(new("Elevator change state", () => SetState(false)));
 
             PlayerMove.Ins.TF.SetParent(CoregameManager.Ins.currentLevel.transform, true);
             PlayerMove.Ins.ContinueMove();
-            CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+            CoregameManager.Ins.listRewindEvent.Add(new("Elevator start rewind", () =>
             {
                 PlayerMove.Ins.TF.SetParent(rectTransform);
                 //PlayerMove.Ins.Stop();

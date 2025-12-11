@@ -38,7 +38,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         IsReversing = false;
     }
 
-    public IEnumerator Reverve(bool isDie)
+    public IEnumerator Reverse(bool isDie)
     {
         if (IsReversing) yield break;
         GamePanel.reverseButton.SetActive(false);
@@ -47,22 +47,16 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         if (isDie) yield return new WaitForSeconds(dieAnimTime);
         if (isDie)
         {
-            yield return new WaitForSeconds(0.5f);
+            //yield return new WaitForSeconds(0.5f);
             IsReversing = true;
             yield return new WaitForEndOfFrame();
             PlayerMove.Ins.spine.PlayBackward(Anim.Die);
-            StartCoroutine(PlayerMove.Ins.StartReverse());
             StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
-            EventDispatcher.DispatchEvent(EventId.OnRewind);
-            yield return new WaitForSeconds(dieAnimTime / reverseRatio);
-            PlayerMove.Ins.spine.PlayBackward(Anim.Run);
         }
         else
         {
             IsReversing = true;
-            StartCoroutine(PlayerMove.Ins.StartReverse());
             StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
-            EventDispatcher.DispatchEvent(EventId.OnRewind);
         }
     }
 
@@ -83,6 +77,8 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     }
     IEnumerator ReverseCoroutine(float startReverse)
     {
+        StartCoroutine(PlayerMove.Ins.StartReverse());
+        EventDispatcher.DispatchEvent(EventId.OnRewind);
         for (int i = listRewindEvent.Count - 1; i >= 0; i--)
         {
             var ev = listRewindEvent[i];

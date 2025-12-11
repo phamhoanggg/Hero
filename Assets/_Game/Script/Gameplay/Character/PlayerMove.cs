@@ -42,12 +42,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     {
         float dis = Vector2.Distance(route[id].TF.position, tf.position);
         float time = dis / speed;
-        Tween moveTween = TweenUtil.RewindableTween(tf.DOMove(route[id].TF.position, time).OnUpdate(() => lastMoveTime = Time.fixedTime), ReverseStepCompleted, MoveCompleted);
+        Tween moveTween = TweenUtil.RewindableTween(tf.DOMove(route[id].TF.position, time).OnUpdate(() => lastMoveTime = Time.realtimeSinceStartup), ReverseStepCompleted, MoveCompleted);
         int scaleX = (route[id].TF.position.x >= tf.position.x) ? 1 : -1;
         float prev_scaleX = tf.localScale.x;
         tf.localScale = new Vector3(scaleX, 1, 1);
         if (scaleX * prev_scaleX < 0)
-            CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+            CoregameManager.Ins.listRewindEvent.Add(new("Player FlipX", () =>
             {
                 tf.localScale = new Vector3(-scaleX, 1, 1);
             }));
@@ -75,12 +75,12 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     }
     public void Stop()
     {
-        lastMoveTime = Time.fixedTime;
-        Tween tween = tweenMoveStack.Last();
-        tween.Pause();
+        lastMoveTime = Time.realtimeSinceStartup;
+        //Tween tween = tweenMoveStack.Last();
+        //tween.Pause();
+        TF.DOPause();
         PlayAnim(Anim.Idle, true);
-        //CoregameManager.Ins.listRewindEvent.Add(new("", () => PlayAnim(Anim.Run, true, -CoregameManager.Ins.reverseRatio)));
-        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        CoregameManager.Ins.listRewindEvent.Add(new("Player continue move backward", () =>
         {
             tweenMoveStack[reverseIndex].PlayBackwards();
             PlayAnim(Anim.Run, true);
@@ -88,7 +88,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     }
     public void ContinueMove()
     {
-        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        CoregameManager.Ins.listRewindEvent.Add(new("Player Stop when move backward", () =>
         {
             tweenMoveStack[reverseIndex].Pause();
             PlayAnim(Anim.Idle, true);
@@ -114,7 +114,7 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
    
     public IEnumerator StartReverse()
     {
-        float waitTime = Time.fixedTime - lastMoveTime;
+        float waitTime = Time.realtimeSinceStartup - lastMoveTime;
         float reverseScale = CoregameManager.Ins.reverseRatio;
 
         yield return new WaitForSeconds(waitTime / reverseScale);
@@ -157,10 +157,10 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         if (anim == Anim.Die) weaponSpine.OnParentDie();
     }
 
-    public void PlayBackward(Anim anim)
+    public void PlayBackward(Anim anim, float startTrackTime = 1)
     {
-        spine.PlayBackward(anim);
-        weaponSpine.PlayBackward(anim);
+        spine.PlayBackward(anim, startTrackTime);
+        weaponSpine.PlayBackward(anim, startTrackTime);
     }
 
     public GameObject GetRoot()

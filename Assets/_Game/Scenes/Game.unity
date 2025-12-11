@@ -4017,7 +4017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GamePanel: {fileID: 1427902981}
   shakeTf: {fileID: 1780420399}
-  reverseRatio: 2
+  reverseRatio: 1
   listRewindEvent: []
   listLevel:
   - {fileID: 798130188}

@@ -60,7 +60,7 @@ public class RotateObject : MonoBehaviour
         else
         {
             rectTransform.DOPause();
-            CoregameManager.Ins.listRewindEvent.Add(new("", () => StartReverse()));
+            CoregameManager.Ins.listRewindEvent.Add(new("Rotate object start rewind", () => StartReverse()));
         }
     }
 
