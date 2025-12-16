@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 8847074558649740006}
   - component: {fileID: 8439863602445183946}
   - component: {fileID: 3062498106951422945}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Body
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -516,6 +516,8 @@ MonoBehaviour:
   weapon: 1
   attackAnim: -1
   attackRange: 0
+  canMove: 0
+  moveSpeed: 0
   key: {fileID: 3623459487782746813}
 --- !u!1001 &7338995970847501833
 PrefabInstance:

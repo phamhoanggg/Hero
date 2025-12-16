@@ -25,12 +25,14 @@ public abstract class SpineController : MonoBehaviour
     {
         EventDispatcher.RegisterListener(EventId.OnRewind, DelegateStartRewind);
         EventDispatcher.RegisterListener(EventId.OnRewindCompleted, OnCompleteRewind);
+        EventDispatcher.RegisterListener(EventId.OnStartMove, OnStartGame);
     }
 
     private void OnDisable()
     {
         EventDispatcher.UnregisterListener(EventId.OnRewindCompleted, OnCompleteRewind);
         EventDispatcher.UnregisterListener(EventId.OnRewind, DelegateStartRewind);
+        EventDispatcher.UnregisterListener(EventId.OnStartMove, OnStartGame);
     }
 
     /// <summary>
@@ -47,16 +49,38 @@ public abstract class SpineController : MonoBehaviour
         mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);
     }
 
+    public IEnumerator Play(string animName, bool loop = true, float delayTime = 0)
+    {
+        yield return new WaitForSeconds(delayTime);
+        mainSpine.initialFlipX = !InitRight;
+        //mainSpine.AnimationState.ClearTracks();
+        //mainSpine.AnimationState.SetEmptyAnimation(0, 0.2f);
+
+        // Start animation
+        mainSpine.AnimationState.SetAnimation(0, animName, loop);
+    }
+
     [Button]
-    public void PlayBackward(Anim animName, float startTrackTime = 1)
+    public void PlayBackward(Anim animName, float startTrackTime = 1, bool loop = false)
     {
         mainSpine.initialFlipX = !InitRight;
         float timeScale = -CoregameManager.Ins.reverseRatio;
 
         // Start animation
-        var trackEntry = mainSpine.AnimationState.SetAnimation(0, animName.ToString(), false);
-        trackEntry.TimeScale = timeScale;
+        var trackEntry = mainSpine.AnimationState.SetAnimation(0, animName.ToString(), loop);
         trackEntry.TrackTime = trackEntry.Animation.Duration * startTrackTime;
+        trackEntry.TimeScale = timeScale;
+    }
+
+    public void PlayBackward(string animName, float startTrackTime = 1, bool loop = false)
+    {
+        mainSpine.initialFlipX = !InitRight;
+        float timeScale = -CoregameManager.Ins.reverseRatio;
+
+        // Start animation
+        var trackEntry = mainSpine.AnimationState.SetAnimation(0, animName, loop);
+        trackEntry.TrackTime = trackEntry.Animation.Duration * startTrackTime;
+        trackEntry.TimeScale = timeScale;
     }
     public float GetAnimDuration(Anim animName)
     {
@@ -68,7 +92,12 @@ public abstract class SpineController : MonoBehaviour
     {
         //isReversing = true;
     }
-    public void OnCompleteRewind(object args)
+    public virtual void OnCompleteRewind(object args)
+    {
+
+    }
+
+    public virtual void OnStartGame(object args)
     {
 
     }

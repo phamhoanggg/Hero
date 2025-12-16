@@ -10,7 +10,7 @@ using UnityEngine;
 public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 {
     public GamePanel GamePanel;
-    public Transform shakeTf;
+    public Transform gameplayTf;
     public readonly float BASE_CAMERA_SIZE = 6.4f;
     public float reverseRatio;
     public List<EventCheckpoint> listRewindEvent;
@@ -23,8 +23,8 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
     {
         int levelIndex = DataManager.Ins.Data.LevelIndex;
 
-        currentLevel = listLevel[levelIndex];
-        listLevel[levelIndex].gameObject.SetActive(true);
+        currentLevel = Instantiate(listLevel[levelIndex], gameplayTf);
+        currentLevel.transform.SetAsFirstSibling();
     }
 
     public void Play()
@@ -49,7 +49,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
         {
             //yield return new WaitForSeconds(0.5f);
             IsReversing = true;
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
             PlayerMove.Ins.spine.PlayBackward(Anim.Die);
             StartCoroutine(ReverseCoroutine(Time.realtimeSinceStartup - startgameStamp));
         }
@@ -72,12 +72,12 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
     public void ShakeCamera()
     {
-        Vector3 originPos = shakeTf.position;
+        Vector3 originPos = gameplayTf.position;
         //shakeTf.DOShakePosition(0.25f, strength: new Vector2(0f, 50)).OnComplete(() => shakeTf.position = originPos);
     }
     IEnumerator ReverseCoroutine(float startReverse)
     {
-        StartCoroutine(PlayerMove.Ins.StartReverse());
+        PlayerMove.Ins.StartReverse();
         EventDispatcher.DispatchEvent(EventId.OnRewind);
         for (int i = listRewindEvent.Count - 1; i >= 0; i--)
         {
@@ -112,7 +112,13 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
 
         foreach (var zone in currentLevel.zones)
         {
-            CheckPoint checkPoint = zone.GetFirstCheckpoint();
+            CheckPoint checkPoint;
+            if (route.Count > 0 && route.Last().nextCandidates.Length > 0 && zone.ZoneOption < route.Last().nextCandidates.Length)
+            {
+                checkPoint = route.Last().nextCandidates[zone.ZoneOption];
+            }
+            else checkPoint = zone.GetFirstCheckpoint();
+
             while (checkPoint != null)
             {
                 route.Add(checkPoint);
@@ -131,6 +137,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
             route.Add(start);
             while (route.Last().next != null)
             {
+                if (route.Last().IsLastPoint) break;
                 route.Add(route.Last().next);
             }
         }
@@ -141,6 +148,7 @@ public class CoregameManager : SingletonMonoBehaviour<CoregameManager>
             InvertCheckPoint first = zone.GetFirstInvertCheckpoint();
             while (first != null)
             {
+                if (route.Last().IsLastPoint) break;
                 route.Add(first);
                 first = first.next;
             }

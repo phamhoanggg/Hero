@@ -11,12 +11,20 @@ public class EnemySpine : SpineController
     {
         if (CoregameManager.Ins.IsReversing) return;
 
-        if (collision.CompareTag(GameConst.TAG_DIE))
+        if (collision.CompareTag(GameConst.TAG_DIE) || collision.CompareTag(GameConst.TAG_BEE))
         {
             Debug.LogWarning("Enemy trigger die");
             col.enabled = false;
             CoregameManager.Ins.listRewindEvent.Add(new("Disable col enemy", () => col.enabled = true));
-            dieRoutine = StartCoroutine(enemyRoot.Die());
+            enemyRoot.Stop();
+            dieRoutine = StartCoroutine(enemyRoot.Die(() => dieRoutine = null));
+        }
+
+        if (collision.CompareTag(GameConst.TAG_FALL))
+        {
+            enemyRoot.Stop();
+            Vector3 targetPos = collision.transform.GetChild(0).transform.position;
+            enemyRoot.Move(targetPos, false);
         }
     }
 
@@ -25,9 +33,12 @@ public class EnemySpine : SpineController
         base.DelegateStartRewind(args);
         if (dieRoutine != null)
         {
-            StopCoroutine(dieRoutine);
-            enemyRoot.PlayBackward(Anim.Die);
-            //enemyRoot.PlayAnim(Anim.Idle, true, GetAnimDuration(Anim.Die) / CoregameManager.Ins.reverseRatio);
+            if (!enemyRoot.IsDead) 
+            {
+                StopCoroutine(dieRoutine);
+                enemyRoot.PlayBackward(Anim.Die);
+            }
+            
             dieRoutine = null;
         }
     }

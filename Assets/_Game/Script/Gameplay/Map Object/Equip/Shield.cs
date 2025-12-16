@@ -4,7 +4,7 @@ using UnityEngine;
 public class Shield : RewindableObject
 {
     [SerializeField] Transform shieldRoot;
-    [SerializeField] Transform shieldTf;
+    public Transform shieldTf;
 
     Sequence seq;
     bool tweenCompleted;
@@ -29,7 +29,7 @@ public class Shield : RewindableObject
             tweenCompleted = true;
             CoregameManager.Ins.listRewindEvent.Add(new("Shield On", () =>
             {
-                seq.timeScale = 1 / CoregameManager.Ins.reverseRatio;
+                seq.timeScale = CoregameManager.Ins.reverseRatio;
                 seq.PlayBackwards();
             }));
         });
@@ -41,7 +41,7 @@ public class Shield : RewindableObject
     {
         if (seq == null || tweenCompleted) return;
         seq.Pause();
-        seq.timeScale = 1 / CoregameManager.Ins.reverseRatio;
+        seq.timeScale = CoregameManager.Ins.reverseRatio;
         seq.PlayBackwards();
     }
 }

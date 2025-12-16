@@ -518,7 +518,7 @@ GameObject:
   - component: {fileID: 3536012862175774148}
   - component: {fileID: 1445419115923574085}
   - component: {fileID: 4510456139161691332}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: PlayerSpine
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -631,6 +631,7 @@ MonoBehaviour:
   InitRight: 1
   RectTf: {fileID: 3772845678896158792}
   shield: {fileID: 561232235263772913}
+  col2d: {fileID: 4510456139161691332}
 --- !u!61 &4510456139161691332
 BoxCollider2D:
   m_ObjectHideFlags: 0

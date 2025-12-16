@@ -22,6 +22,8 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     float lastMoveTime;
     Vector2 defaultPos;
 
+    bool isMoving;
+
     private void Start()
     {
         if (door == null)
@@ -42,8 +44,31 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
     {
         float dis = Vector2.Distance(route[id].TF.position, tf.position);
         float time = dis / speed;
-        Tween moveTween = TweenUtil.RewindableTween(tf.DOMove(route[id].TF.position, time).OnUpdate(() => lastMoveTime = Time.realtimeSinceStartup), ReverseStepCompleted, MoveCompleted);
+        isMoving = true;
+        Tween moveTween = TweenUtil.RewindableTween(tf.DOMove(route[id].TF.position, time).OnUpdate(() => lastMoveTime = Time.realtimeSinceStartup), 
+            ReverseStepCompleted, 
+            MoveCompleted);
         int scaleX = (route[id].TF.position.x >= tf.position.x) ? 1 : -1;
+        float prev_scaleX = tf.localScale.x;
+        tf.localScale = new Vector3(scaleX, 1, 1);
+        if (scaleX * prev_scaleX < 0)
+            CoregameManager.Ins.listRewindEvent.Add(new("Player FlipX", () =>
+            {
+                tf.localScale = new Vector3(-scaleX, 1, 1);
+            }));
+
+        tweenMoveStack.Add(moveTween);
+    }
+
+    public void Move(Vector3 target)
+    {
+        float dis = Vector2.Distance(target, tf.position);
+        float time = dis / speed;
+        isMoving = true;
+        Tween moveTween = TweenUtil.RewindableTween(tf.DOMove(target, time).OnUpdate(() => lastMoveTime = Time.realtimeSinceStartup),
+            ReverseStepCompleted,
+            MoveCompleted);
+        int scaleX = (target.x >= tf.position.x) ? 1 : -1;
         float prev_scaleX = tf.localScale.x;
         tf.localScale = new Vector3(scaleX, 1, 1);
         if (scaleX * prev_scaleX < 0)
@@ -57,6 +82,14 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
 
     public void MoveCompleted()
     {
+        isMoving = false;
+        int tweenID = tweenMoveStack.Count - 1;
+        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        {
+            tweenMoveStack[tweenID].timeScale = CoregameManager.Ins.reverseRatio;
+            tweenMoveStack[tweenID].PlayBackwards();
+            PlayBackward(Anim.Run, loop: true);
+        }));
         if (checkpointIndex + 1 < route.Count)
         {
             checkpointIndex++;
@@ -80,20 +113,22 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         //tween.Pause();
         TF.DOPause();
         PlayAnim(Anim.Idle, true);
-        CoregameManager.Ins.listRewindEvent.Add(new("Player continue move backward", () =>
+
+        if (isMoving)
         {
-            tweenMoveStack[reverseIndex].PlayBackwards();
-            PlayAnim(Anim.Run, true);
-        }));
+            isMoving = false;
+            int tweenID = tweenMoveStack.Count - 1;
+            CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+            {
+                tweenMoveStack[tweenID].timeScale = CoregameManager.Ins.reverseRatio;
+                tweenMoveStack[tweenID].PlayBackwards();
+                PlayBackward(Anim.Run, loop: true);
+            }));
+        }
+        
     }
     public void ContinueMove()
     {
-        CoregameManager.Ins.listRewindEvent.Add(new("Player Stop when move backward", () =>
-        {
-            tweenMoveStack[reverseIndex].Pause();
-            PlayAnim(Anim.Idle, true);
-        }));
-        //tweenMoveStack.Add(DOVirtual.Float(0, 1, Time.fixedTime - lastMoveTime, (float update) => { }).SetAutoKill(false).OnRewind(ReverseStepCompleted));
         PlayAnim(Anim.Run, true);
         Move(checkpointIndex);
     }
@@ -105,38 +140,40 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         CoregameManager.Ins.listRewindEvent.Add(new("Equip weapon", () =>
         {
             wp.gameObject.SetActive(true);
-            weaponSpine.SetWeapon(Skin.Normal, Anim.Bow, 0, null);
+            weaponSpine.SetWeapon(Skin.Normal, Anim.Bow, 0, this);
         }));
-        //PlayAnim(Anim.Idle, true);
     }
 
     #region REVERSE
    
-    public IEnumerator StartReverse()
+    public void StartReverse()
     {
-        float waitTime = Time.realtimeSinceStartup - lastMoveTime;
         float reverseScale = CoregameManager.Ins.reverseRatio;
+        Glitch.Ins.Play();
 
-        yield return new WaitForSeconds(waitTime / reverseScale);
-
+        if (isMoving)
+        {
+            isMoving = false;
+            TF.DOPause();
+            tweenMoveStack.Last().timeScale = reverseScale;
+            tweenMoveStack.Last().PlayBackwards();
+            PlayAnim(Anim.Run);
+        }
         door.Close();
-        foreach (var tween in tweenMoveStack)
-            tween.timeScale = reverseScale;
-
 
         reverseIndex = tweenMoveStack.Count - 1;
-        Glitch.Ins.Play();
-        PlayAnim(Anim.Run, true);
-        tweenMoveStack[reverseIndex].PlayBackwards();
     }
 
     public void ReverseStepCompleted()
     {
-        tweenMoveStack.RemoveAt(reverseIndex);
+        //tweenMoveStack.RemoveAt(reverseIndex);
 
         reverseIndex--;
-        if (reverseIndex >= 0 && (Vector2.Distance(tf.position, defaultPos) > 0.1f)) tweenMoveStack[reverseIndex].PlayBackwards();
-        else 
+        if (reverseIndex >= 0 && Vector2.Distance(TF.position, defaultPos) > 0.1f)
+        {
+            //tweenMoveStack[reverseIndex].PlayBackwards();
+        }
+        else
         {
             ReverseCompleted();
         }
@@ -157,10 +194,10 @@ public class PlayerMove : SingletonMonoBehaviour<PlayerMove>, IAnimplayer
         if (anim == Anim.Die) weaponSpine.OnParentDie();
     }
 
-    public void PlayBackward(Anim anim, float startTrackTime = 1)
+    public void PlayBackward(Anim anim, float startTrackTime = 1, bool loop = false)
     {
-        spine.PlayBackward(anim, startTrackTime);
-        weaponSpine.PlayBackward(anim, startTrackTime);
+        spine.PlayBackward(anim, startTrackTime, loop);
+        weaponSpine.PlayBackward(anim, startTrackTime, loop);
     }
 
     public GameObject GetRoot()

@@ -72,7 +72,7 @@ public class Elevator : RewindableObject
             PlayerMove.Ins.ContinueMove();
             CoregameManager.Ins.listRewindEvent.Add(new("Elevator start rewind", () =>
             {
-                PlayerMove.Ins.TF.SetParent(rectTransform);
+                PlayerMove.Ins.TF.SetParent(rectTransform, true);
                 //PlayerMove.Ins.Stop();
                 StartReverse();
             }));

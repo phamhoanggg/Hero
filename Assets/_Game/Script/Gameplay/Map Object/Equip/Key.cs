@@ -10,17 +10,21 @@ public class Key : RewindableObject
     public void OnRelease()
     {
         Transform parent = m_RectTransform.parent;
+        Vector3 pos = m_RectTransform.position;
         m_RectTransform.SetParent(CoregameManager.Ins.currentLevel.transform, true);
         col2D.enabled = true;
         CoregameManager.Ins.listRewindEvent.Add(new("Key Collect", () =>
         {
             m_RectTransform.SetParent(parent, true);
+            m_RectTransform.position = pos;
             col2D.enabled = false;
         }));
     }
     public void OnCollected()
     {
         rootParent = m_RectTransform.parent;
+        rootPosition = m_RectTransform.anchoredPosition;
+
         m_RectTransform.SetParent(PlayerMove.Ins.PlayerTf);
         float originRotate = m_RectTransform.eulerAngles.z;
         m_RectTransform.DOLocalRotate(Vector3.zero, 0.25f);

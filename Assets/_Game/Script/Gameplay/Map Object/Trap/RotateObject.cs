@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using SharedModules.ED;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class RotateObject : MonoBehaviour
 {
     [SerializeField] RectTransform rectTransform;
+    [SerializeField] RectTransform rotateImage;
     [SerializeField] float speed;
     [SerializeField] float rotateSpeed = 1;
     [SerializeField] InvertCheckPoint startPoint;
@@ -14,19 +16,29 @@ public class RotateObject : MonoBehaviour
     int checkpointIndex;
     List<Tween> tweenMoveStack = new();
     int reverseIndex;
-    float lastMoveTIme;
+    bool moveDone;
     bool isReversing;
     Tween rotateTween;
     private void OnEnable()
     {
-        EventDispatcher.RegisterListener(EventId.OnRewind, StartReverse);
+        EventDispatcher.RegisterListener(EventId.OnRewind, OnPlayerStartReverse);
         EventDispatcher.RegisterListener(EventId.OnStartMove, StartMove);
     }
 
     private void OnDisable()
     {
-        EventDispatcher.UnregisterListener(EventId.OnRewind, StartReverse);
+        EventDispatcher.UnregisterListener(EventId.OnRewind, OnPlayerStartReverse);
         EventDispatcher.UnregisterListener(EventId.OnStartMove, StartMove);
+    }
+
+    public void OnPlayerStartReverse(object arg = null)
+    {
+        if (!moveDone)
+        {
+            tweenMoveStack.Last().timeScale = CoregameManager.Ins.reverseRatio;
+            tweenMoveStack.Last().PlayBackwards();
+            StartReverse();
+        }
     }
 
     public void StartMove(object arg = null)
@@ -37,12 +49,29 @@ public class RotateObject : MonoBehaviour
         tweenMoveStack.Clear();
         rotateTween = rectTransform.DORotate(Vector3.forward * 360, 1 / rotateSpeed, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear).SetAutoKill(false);
         Move(checkpointIndex);
+        moveDone = false;
     }
 
     void Move(int idx)
     {
         float dis = Vector2.Distance(rectTransform.position, route[idx].TF.position);
         float moveTime = dis / speed;
+
+        float direct = rotateTween.timeScale;
+        if (Mathf.Abs(route[idx].TF.position.x - rectTransform.position.x) > 0.1f)
+        {
+            direct = (route[idx].TF.position.x < rectTransform.position.x) ? 1 : -1;
+        }
+        
+        if (direct * rotateTween.timeScale < 0)
+        {
+            rotateTween.timeScale = direct;
+            CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+            {
+                rotateTween.timeScale = -direct * CoregameManager.Ins.reverseRatio;
+            }));
+        }
+
         Tween tween = TweenUtil.RewindableTween(rectTransform.DOMove(route[idx].TF.position, moveTime),
             ReverseStepCompleted, MoveCompleted);
         tweenMoveStack.Add(tween);
@@ -51,7 +80,13 @@ public class RotateObject : MonoBehaviour
 
     public void MoveCompleted()
     {
-        lastMoveTIme = Time.fixedDeltaTime;
+        int moveTweenId = tweenMoveStack.Count - 1;
+        CoregameManager.Ins.listRewindEvent.Add(new("", () =>
+        {
+            tweenMoveStack[moveTweenId].timeScale = CoregameManager.Ins.reverseRatio;
+            tweenMoveStack[moveTweenId].PlayBackwards();
+        }));
+
         if (checkpointIndex + 1 < route.Count)
         {
             checkpointIndex++;
@@ -61,31 +96,28 @@ public class RotateObject : MonoBehaviour
         {
             rectTransform.DOPause();
             CoregameManager.Ins.listRewindEvent.Add(new("Rotate object start rewind", () => StartReverse()));
+            moveDone = true;
         }
     }
 
-    public void StartReverse(object arg = null)
+    public void StartReverse()
     {
         if (isReversing) return;
         isReversing = true;
         rotateTween.Pause();
         rotateTween.timeScale = CoregameManager.Ins.reverseRatio;
         rotateTween.PlayBackwards();
-        //rectTransform.DORotate(Vector3.forward * -360, 1 / rotateSpeed / CoregameManager.Ins.reverseRatio, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
-        float reverseScale = CoregameManager.Ins.reverseRatio;
-        foreach (var tween in tweenMoveStack)
-            tween.timeScale = reverseScale;
-
-
         reverseIndex = tweenMoveStack.Count - 1;
-        tweenMoveStack[reverseIndex].PlayBackwards();
     }
 
     public void ReverseStepCompleted()
     {
         //tweenMoveStack[reverseIndex].Kill();
         reverseIndex--;
-        if (reverseIndex >= 0) tweenMoveStack[reverseIndex].PlayBackwards();
+        if (reverseIndex >= 0)
+        {
+            //tweenMoveStack[reverseIndex].PlayBackwards();
+        }
         else
         {
             ReverseCompleted();

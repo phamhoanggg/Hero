@@ -10,15 +10,21 @@ TagManager:
   - Key
   - Enemy
   - Weapon
+  - Fall
+  - Conveyor
+  - Torch
+  - Bee
+  - BeeHive
+  - ConveyorControll
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - BeeHive Sensor
+  - Enemy
   - 
   - 
   - 

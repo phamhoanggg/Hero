@@ -96,7 +96,7 @@ MonoBehaviour:
   EndTimeStamp_SinceGameStart: 0
   weaponSkin: 3
   attackAnim: 4
-  attackRange: 100
+  attackRange: 70
 --- !u!61 &3142224729592830277
 BoxCollider2D:
   m_ObjectHideFlags: 0
